@@ -54,7 +54,11 @@ GitHub Pages only serves **static files**, so there is no server-side "backend" 
 | **Storage** | Durable per-minute buckets so a crash loses ≤ 60 s of data. | SQLite3 |
 | **Publisher** | Aggregate to daily/summary JSON, sanitise, upload. | nlohmann/json, WinHTTP / cpr, GitHub REST API |
 | **Lifecycle** | Auto-start at login, single instance, tray icon (pause/quit), flush on shutdown. | `HKCU\...\Run`, named mutex, `Shell_NotifyIconW`, `WM_ENDSESSION` |
-| **Frontend** | Static page: resume + charts from published JSON. | HTML, vanilla JS, Chart.js |
+| **Frontend** | Plain static page with zero CSS: resume + charts from published JSON. | Semantic HTML, vanilla JS, Chart.js |
+
+### Frontend: plain HTML, zero CSS
+
+The site is deliberately plain HTML with **no CSS at all**: no stylesheets, no `<style>` blocks, no inline `style` attributes, no CSS frameworks. It relies on the browser's default rendering and semantic markup (`<header>`, `<main>`, `<section>`, `<ul>`, `<table>`) for structure, so the content and data are what stand out.
 
 ### Privacy by design
 
@@ -75,20 +79,38 @@ tracker.exe --uninstall   # remove auto-start entry
 tracker.exe               # normal run (invoked automatically at login)
 ```
 
-## Building (planned)
+## Building
 
-Requires CMake ≥ 3.20 and vcpkg. Builds natively with MSVC, or cross-compiles from Linux/WSL with MinGW-w64.
+Requires CMake ≥ 3.21 and a C++17 compiler. Dependencies (GoogleTest, and later SQLite / nlohmann-json) are fetched automatically by CMake `FetchContent`; there's no package manager to install.
+
+| Preset | Host | Produces |
+|---|---|---|
+| `linux` | Linux / WSL | `tracker_core` + unit tests (no `.exe`) |
+| `mingw` | Linux / WSL | `build/mingw/bin/tracker.exe` (cross-compiled, static) |
+| `msvc` | Windows | `build/msvc/bin/Release/tracker.exe` + unit tests |
 
 ```bash
-cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
-cmake --build build --config Release
+# Unit tests (WSL / Linux)
+cmake --preset linux && cmake --build --preset linux && ctest --preset linux
+
+# Windows .exe from WSL (one-time: sudo apt install mingw-w64)
+cmake --preset mingw && cmake --build --preset mingw
+
+# Native Windows (Developer PowerShell)
+cmake --preset msvc; cmake --build --preset msvc; ctest --preset msvc
 ```
 
-## Repository layout (planned)
+CI (`.github/workflows/build.yml`) runs all three on every push and uploads `tracker.exe` as a build artifact.
+
+## Repository layout
 
 ```
-tracker/        C++ collector (src/, include/, tests/)
-site/           static frontend served by GitHub Pages
-docs/           design notes
-plan.md         implementation roadmap
+tracker/
+  include/tracker/   public headers (platform-independent)
+  src/               core logic + main_win.cpp (Windows entry point)
+  tests/             GoogleTest unit tests
+cmake/               compiler options, MinGW toolchain
+site/                static frontend served by GitHub Pages
+docs/                design notes
+plan.md              implementation roadmap
 ```

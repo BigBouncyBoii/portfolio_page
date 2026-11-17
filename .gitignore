@@ -1,0 +1,16 @@
+# Build output
+build/
+out/
+compile_commands.json
+CMakeUserPresets.json
+
+# IDE
+.vs/
+.idea/
+*.swp
+
+# Local runtime data (never commit)
+*.db
+*.db-wal
+*.db-shm
+*.log

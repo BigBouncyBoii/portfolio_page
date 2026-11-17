@@ -10,12 +10,14 @@ Each phase ends with something working and demoable. Tick items off as you go.
 
 **Goal:** an empty `.exe` builds locally and in CI.
 
-- [ ] Create layout: `tracker/{src,include,tests}`, `site/`, `docs/`
-- [ ] `CMakeLists.txt` (C++17, warnings-as-errors, `-mwindows` / `/SUBSYSTEM:WINDOWS`)
-- [ ] `vcpkg.json` manifest: `sqlite3`, `nlohmann-json`, `gtest`
-- [ ] MinGW-w64 toolchain file for cross-compiling from WSL (`x86_64-w64-mingw32-g++`)
-- [ ] `.gitignore`, `.clang-format`
-- [ ] GitHub Actions: build on `windows-latest`, run tests, upload `tracker.exe` artifact
+- [x] Create layout: `tracker/{src,include,tests}`, `site/`, `docs/`
+- [x] `CMakeLists.txt` (C++17, warnings-as-errors, GUI subsystem via `WIN32` executable)
+- [x] Dependencies via CMake `FetchContent` (GoogleTest now; SQLite / nlohmann-json added in later phases). Chosen over vcpkg: one mechanism that works for native Linux, MinGW cross-compile and MSVC
+- [x] `CMakePresets.json`: `linux` (tests), `mingw` (cross-compile), `msvc` (native Windows)
+- [x] MinGW-w64 toolchain file for cross-compiling from WSL (`x86_64-w64-mingw32-g++`)
+- [x] `.gitignore`, `.clang-format`
+- [x] Minimal `tracker.exe` with `--help`, `--version`, `--console` + unit-tested arg parser
+- [x] GitHub Actions: MSVC build + tests + smoke test + artifact upload; Linux tests; MinGW cross-compile
 
 **Done when:** pushing to `main` produces a downloadable `tracker.exe` that runs and exits cleanly.
 

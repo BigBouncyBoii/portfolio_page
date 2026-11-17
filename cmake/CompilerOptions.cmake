@@ -1,0 +1,16 @@
+# Applies the project's standard warning set to a target we own.
+# (Third-party targets such as GoogleTest are deliberately left alone.)
+function(tracker_configure_target target)
+    if(MSVC)
+        target_compile_options(${target} PRIVATE /W4 /permissive- /utf-8)
+        if(TRACKER_WARNINGS_AS_ERRORS)
+            target_compile_options(${target} PRIVATE /WX)
+        endif()
+    else()
+        target_compile_options(${target} PRIVATE
+            -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wnon-virtual-dtor)
+        if(TRACKER_WARNINGS_AS_ERRORS)
+            target_compile_options(${target} PRIVATE -Werror)
+        endif()
+    endif()
+endfunction()
