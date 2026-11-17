@@ -5,10 +5,14 @@
 
 #include <shellapi.h>
 
+#include <cstdint>
+#include <cstdio>
 #include <string>
 #include <vector>
 
+#include "keyboard_hook_win.hpp"
 #include "tracker/cli.hpp"
+#include "tracker/key_counter.hpp"
 #include "tracker/version.hpp"
 
 namespace {
@@ -74,6 +78,96 @@ void show(const std::string& text, UINT icon) {
     }
 }
 
+// ---------------------------------------------------------------------------
+// --console: debug mode with its own console window showing live counts.
+// ---------------------------------------------------------------------------
+
+HANDLE g_stop_requested = nullptr;  // set by Ctrl+C / closing the window
+HANDLE g_stopped = nullptr;         // set once the hook is removed
+
+BOOL WINAPI on_console_ctrl(DWORD type) {
+    SetEvent(g_stop_requested);
+    // For close/logoff/shutdown, Windows kills the process as soon as this
+    // handler returns, so give the main thread time to unhook cleanly first.
+    if (type == CTRL_CLOSE_EVENT || type == CTRL_LOGOFF_EVENT || type == CTRL_SHUTDOWN_EVENT) {
+        WaitForSingleObject(g_stopped, 4000);
+    }
+    return TRUE;
+}
+
+class DebugConsole {
+public:
+    DebugConsole() {
+        // We're a GUI-subsystem app, so we have no console of our own; open a
+        // fresh window rather than sharing the launching terminal's input.
+        AllocConsole();
+        SetConsoleTitleW(L"tracker --console");
+        out_ = CreateFileW(L"CONOUT$", GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
+                           OPEN_EXISTING, 0, nullptr);
+    }
+    ~DebugConsole() {
+        if (out_ != INVALID_HANDLE_VALUE) CloseHandle(out_);
+    }
+    DebugConsole(const DebugConsole&) = delete;
+    DebugConsole& operator=(const DebugConsole&) = delete;
+
+    void print(const std::string& text) const {
+        if (out_ == INVALID_HANDLE_VALUE) return;
+        const std::wstring wide = to_wide(text);
+        DWORD written = 0;
+        WriteConsoleW(out_, wide.data(), static_cast<DWORD>(wide.size()), &written, nullptr);
+    }
+
+private:
+    HANDLE out_ = INVALID_HANDLE_VALUE;
+};
+
+std::string timestamp() {
+    SYSTEMTIME t;
+    GetLocalTime(&t);
+    char buf[16];
+    std::snprintf(buf, sizeof(buf), "%02u:%02u:%02u", static_cast<unsigned>(t.wHour),
+                  static_cast<unsigned>(t.wMinute), static_cast<unsigned>(t.wSecond));
+    return buf;
+}
+
+int run_console() {
+    constexpr DWORD kReportIntervalMs = 5000;
+
+    g_stop_requested = CreateEventW(nullptr, TRUE, FALSE, nullptr);
+    g_stopped = CreateEventW(nullptr, TRUE, FALSE, nullptr);
+
+    DebugConsole console;
+    SetConsoleCtrlHandler(on_console_ctrl, TRUE);
+
+    tracker::KeyCounter counter;
+    tracker::KeyboardHook hook(counter);
+    if (!hook.start()) {
+        MessageBoxW(nullptr, to_wide("Could not install keyboard hook: " + hook.error()).c_str(),
+                    L"tracker", MB_OK | MB_ICONERROR);
+        return 1;
+    }
+
+    console.print(std::string(tracker::kName) + " " + tracker::kVersion +
+                  ": counting keystrokes (keyboard only, counts only).\n"
+                  "Press Ctrl+C or close this window to stop.\n\n");
+
+    std::uint64_t session_total = 0;
+    while (WaitForSingleObject(g_stop_requested, kReportIntervalMs) == WAIT_TIMEOUT) {
+        const std::uint64_t delta = counter.take();
+        session_total += delta;
+        console.print(timestamp() + "  keys +" + std::to_string(delta) +
+                      "  (session total " + std::to_string(session_total) + ")\n");
+    }
+
+    hook.stop();
+    session_total += counter.take();
+    console.print("\nStopped. Session total: " + std::to_string(session_total) + " keystrokes.\n");
+
+    SetEvent(g_stopped);
+    return 0;
+}
+
 }  // namespace
 
 int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
@@ -97,10 +191,13 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
             break;
     }
 
-    // Phase 0: nothing to track yet. Later phases start hooks/sampler here.
     if (opts.console) {
-        write_out(std::string(tracker::kName) + " " + tracker::kVersion +
-                  ": started (no collectors yet), exiting.\n");
+        return run_console();
     }
+
+    // Background (tray) mode arrives in Phase 4; until then there would be no
+    // way to see or stop a hidden tracker, so point at debug mode instead.
+    show("Background mode is not implemented yet. Run: tracker.exe --console\n",
+         MB_ICONINFORMATION);
     return 0;
 }

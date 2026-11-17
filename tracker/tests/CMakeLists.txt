@@ -9,9 +9,15 @@ set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_executable(tracker_tests
-    cli_test.cpp)
+    cli_test.cpp
+    key_counter_test.cpp)
 
 target_link_libraries(tracker_tests PRIVATE tracker_core GTest::gtest_main)
+
+if(WIN32)
+    target_sources(tracker_tests PRIVATE keyboard_hook_win_test.cpp)
+    target_link_libraries(tracker_tests PRIVATE tracker_win)
+endif()
 tracker_configure_target(tracker_tests)
 
 include(GoogleTest)

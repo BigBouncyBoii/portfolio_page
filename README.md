@@ -1,6 +1,6 @@
 # portfolio_page
 
-A portfolio page with a twist: alongside the usual resume content, it shows **live statistics about how I use my computer** — keystrokes, mouse clicks, time spent per application — collected by a lightweight C++ tracker running on my PC.
+A portfolio page with a twist: alongside the usual resume content, it shows **live statistics about how I use my computer** — keystrokes and time spent per application — collected by a lightweight C++ tracker running on my PC.
 
 > **Status:** 🚧 In development — see [`plan.md`](plan.md) for the roadmap.
 
@@ -16,7 +16,7 @@ A portfolio page with a twist: alongside the usual resume content, it shows **li
 │  ┌──────────────────┐   ┌──────────────────┐                      │
 │  │  Input Thread    │   │  Focus Sampler   │                      │
 │  │  WH_KEYBOARD_LL  │   │  (1 Hz)          │                      │
-│  │  WH_MOUSE_LL     │   │  foreground app  │                      │
+│  │  (keyboard only) │   │  foreground app  │                      │
 │  │  → atomic counts │   │  + idle detect   │                      │
 │  └────────┬─────────┘   └────────┬─────────┘                      │
 │           └──────────┬───────────┘                                │
@@ -49,7 +49,7 @@ GitHub Pages only serves **static files**, so there is no server-side "backend" 
 
 | Component | Responsibility | Key APIs / libs |
 |---|---|---|
-| **Input hooks** | Count keystrokes, clicks, scroll, mouse distance. Callbacks only increment `std::atomic` counters and return immediately (Windows drops slow hooks). | `SetWindowsHookExW`, dedicated message-loop thread |
+| **Input hook** | Count keystrokes (keyboard only; no mouse/touchpad metrics). The callback only increments a `std::atomic` counter and returns immediately (Windows drops slow hooks). | `SetWindowsHookExW(WH_KEYBOARD_LL)`, dedicated message-loop thread |
 | **Focus sampler** | Once per second, attribute time to the foreground process. Pauses when idle > 2 min or system is asleep. | `GetForegroundWindow`, `QueryFullProcessImageNameW`, `GetLastInputInfo`, `WM_POWERBROADCAST` |
 | **Storage** | Durable per-minute buckets so a crash loses ≤ 60 s of data. | SQLite3 |
 | **Publisher** | Aggregate to daily/summary JSON, sanitise, upload. | nlohmann/json, WinHTTP / cpr, GitHub REST API |

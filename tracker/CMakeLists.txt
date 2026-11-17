@@ -8,7 +8,8 @@ configure_file(
     @ONLY)
 
 add_library(tracker_core STATIC
-    src/cli.cpp)
+    src/cli.cpp
+    src/key_counter.cpp)
 
 target_include_directories(tracker_core PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -20,12 +21,19 @@ tracker_configure_target(tracker_core)
 # tracker.exe: Windows-only GUI-subsystem executable (no console window).
 # ---------------------------------------------------------------------------
 if(WIN32)
+    # tracker_win: Win32 collectors (keyboard hook; later the focus sampler).
+    add_library(tracker_win STATIC
+        src/keyboard_hook_win.cpp)
+    target_include_directories(tracker_win PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    target_link_libraries(tracker_win PUBLIC tracker_core user32)
+    target_compile_definitions(tracker_win PUBLIC
+        UNICODE _UNICODE WIN32_LEAN_AND_MEAN NOMINMAX)
+    tracker_configure_target(tracker_win)
+
     add_executable(tracker WIN32
         src/main_win.cpp)
 
-    target_link_libraries(tracker PRIVATE tracker_core shell32 user32)
-    target_compile_definitions(tracker PRIVATE
-        UNICODE _UNICODE WIN32_LEAN_AND_MEAN NOMINMAX)
+    target_link_libraries(tracker PRIVATE tracker_win shell32)
 
     tracker_configure_target(tracker)
 endif()

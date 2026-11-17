@@ -43,7 +43,7 @@ std::string usage() {
            "Options:\n"
            "  -h, --help       Show this help and exit\n"
            "  -v, --version    Show version and exit\n"
-           "      --console    Print debug output to the launching terminal\n";
+           "      --console    Open a debug console window showing live counts\n";
 }
 
 }  // namespace tracker

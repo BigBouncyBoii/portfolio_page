@@ -24,18 +24,18 @@ Each phase ends with something working and demoable. Tick items off as you go.
 
 ---
 
-## Phase 1 — Input counting
+## Phase 1 — Input counting ✅
 
-**Goal:** count keystrokes and clicks in memory.
+**Goal:** count keystrokes in memory. Keyboard only: no mouse metrics are collected (the machine is a laptop with a touchpad and no mouse).
 
-- [ ] `InputHooks` class: dedicated thread running `GetMessage` loop
-- [ ] `WH_KEYBOARD_LL`: increment on `WM_KEYDOWN` / `WM_SYSKEYDOWN` (ignore auto-repeat if desired: track key-down state)
-- [ ] `WH_MOUSE_LL`: left/right/middle clicks, wheel ticks, cumulative pixel distance
-- [ ] Counters are `std::atomic<uint64_t>`; callbacks do **nothing** else
-- [ ] Clean shutdown: `PostThreadMessage(WM_QUIT)` → `UnhookWindowsHookEx`
-- [ ] Temporary debug mode (`--console`) printing counts every 5 s
+- [x] `KeyCounter` (core, unit-tested): `std::atomic<uint64_t>` count, `take()` atomically reads and resets; auto-repeat ignored by tracking key-down state
+- [x] `KeyboardHook` (Win32): dedicated thread running a `GetMessage` loop with `WH_KEYBOARD_LL`; `WM_KEYDOWN`/`WM_SYSKEYDOWN` count, `WM_KEYUP`/`WM_SYSKEYUP` release
+- [x] Callback does **nothing** but update the counter; injected (synthetic) input is ignored
+- [x] Clean shutdown: `PostThreadMessage(WM_QUIT)` → `UnhookWindowsHookEx`
+- [x] Debug mode (`--console`) opens a console window printing the count every 5 s; Ctrl+C / closing the window stops cleanly
+- [x] Running without `--console` shows a "use --console" hint until background mode lands in Phase 4
 
-**Done when:** typing/clicking visibly increments counters with no noticeable input lag.
+**Done when:** typing visibly increments the counter with no noticeable input lag.
 
 ---
 
@@ -62,15 +62,14 @@ Each phase ends with something working and demoable. Tick items off as you go.
   ```sql
   CREATE TABLE input_minute (
     minute_utc INTEGER PRIMARY KEY,   -- unix time / 60
-    keys INTEGER, lclicks INTEGER, rclicks INTEGER,
-    mclicks INTEGER, wheel INTEGER, mouse_px INTEGER
+    keys INTEGER NOT NULL DEFAULT 0
   );
   CREATE TABLE app_minute (
     minute_utc INTEGER, app TEXT, seconds INTEGER,
     PRIMARY KEY (minute_utc, app)
   );
   ```
-- [ ] Aggregator: every 60 s, atomically swap counters to 0 and `UPSERT` the bucket
+- [ ] Aggregator: every 60 s, atomically swap the counter to 0 and `UPSERT` the bucket
 - [ ] Flush on `WM_QUERYENDSESSION` / `WM_ENDSESSION`
 - [ ] WAL mode; wrap each flush in a transaction
 - [ ] Tests for aggregation against an in-memory DB
@@ -87,7 +86,7 @@ Each phase ends with something working and demoable. Tick items off as you go.
 - [ ] `--install`: copy exe to `%LOCALAPPDATA%\PortfolioTracker\`, write `HKCU\...\Run` entry, launch
 - [ ] Single-instance named mutex
 - [ ] Hidden message-only window to receive system messages
-- [ ] Tray icon: status tooltip (today's keys/clicks), **Pause / Resume**, **Publish now**, **Quit**
+- [ ] Tray icon: status tooltip (today's keystrokes), **Pause / Resume**, **Publish now**, **Quit**
 - [ ] File logger with rotation (`tracker.log`)
 - [ ] Config file (`config.json`): idle threshold, publish interval, app allowlist
 
