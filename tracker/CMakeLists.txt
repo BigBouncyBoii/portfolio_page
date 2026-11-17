@@ -7,13 +7,26 @@ configure_file(
     ${CMAKE_CURRENT_BINARY_DIR}/generated/tracker/version.hpp
     @ONLY)
 
+# SQLite: single-file amalgamation, compiled as a static C library.
+include(FetchContent)
+FetchContent_Declare(sqlite3
+    URL https://www.sqlite.org/2024/sqlite-amalgamation-3460100.zip
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
+FetchContent_MakeAvailable(sqlite3)
+
+add_library(sqlite3 STATIC ${sqlite3_SOURCE_DIR}/sqlite3.c)
+target_include_directories(sqlite3 PUBLIC ${sqlite3_SOURCE_DIR})
+target_compile_definitions(sqlite3 PRIVATE SQLITE_OMIT_LOAD_EXTENSION SQLITE_DQS=0)
+
 add_library(tracker_core STATIC
     src/cli.cpp
-    src/key_counter.cpp)
+    src/key_counter.cpp
+    src/storage.cpp)
 
 target_include_directories(tracker_core PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_BINARY_DIR}/generated)
+target_link_libraries(tracker_core PRIVATE sqlite3)
 
 tracker_configure_target(tracker_core)
 

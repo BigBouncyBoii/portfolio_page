@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <cstdio>
+#include <ctime>
 #include <map>
 #include <string>
 #include <vector>
@@ -15,6 +16,7 @@
 #include "keyboard_hook_win.hpp"
 #include "tracker/cli.hpp"
 #include "tracker/key_counter.hpp"
+#include "tracker/storage.hpp"
 #include "tracker/version.hpp"
 
 namespace {
@@ -143,6 +145,34 @@ std::string format_apps(const std::map<std::string, std::uint64_t>& apps) {
     return out.empty() ? "-" : out;
 }
 
+std::int64_t now_minute_utc() {
+    return static_cast<std::int64_t>(std::time(nullptr)) / 60;
+}
+
+std::int64_t local_midnight_minute_utc() {
+    const std::time_t now = std::time(nullptr);
+    std::tm local{};
+    localtime_s(&local, &now);
+    local.tm_hour = local.tm_min = local.tm_sec = 0;
+    return static_cast<std::int64_t>(std::mktime(&local)) / 60;
+}
+
+// %LOCALAPPDATA%\PortfolioTracker (created if missing).
+std::wstring data_dir() {
+    wchar_t buf[MAX_PATH];
+    const DWORD n = GetEnvironmentVariableW(L"LOCALAPPDATA", buf, MAX_PATH);
+    if (n == 0 || n >= MAX_PATH) return L".";
+    std::wstring dir = std::wstring(buf) + L"\\PortfolioTracker";
+    CreateDirectoryW(dir.c_str(), nullptr);
+    return dir;
+}
+
+void print_today(const DebugConsole& console, tracker::Storage& storage) {
+    const std::int64_t since = local_midnight_minute_utc();
+    console.print("Today (saved): " + std::to_string(storage.keys_since(since)) +
+                  " keys; apps: " + format_apps(storage.app_seconds_since(since)) + "\n\n");
+}
+
 int run_console() {
     constexpr DWORD kReportIntervalMs = 5000;
 
@@ -163,28 +193,59 @@ int run_console() {
     tracker::FocusSampler sampler;
     sampler.start();
 
+    const std::string db_path = to_utf8(data_dir().c_str()) + "\\tracker.db";
+    tracker::Storage storage;
+    if (!storage.open(db_path)) {
+        MessageBoxW(nullptr, to_wide("Could not open database: " + storage.error()).c_str(),
+                    L"tracker", MB_OK | MB_ICONERROR);
+        return 1;
+    }
+
     console.print(std::string(tracker::kName) + " " + tracker::kVersion +
                   ": counting keystrokes and foreground app time.\n"
+                  "Database: " + db_path + " (saved once per minute)\n"
                   "Press Ctrl+C or close this window to stop.\n\n");
+    print_today(console, storage);
 
-    std::uint64_t session_total = 0;
-    std::map<std::string, std::uint64_t> session_apps;
+    // Aggregator: accumulate into the current minute's bucket and write it to
+    // SQLite when the minute changes (so a crash loses at most ~1 minute).
+    std::int64_t bucket_minute = now_minute_utc();
+    std::uint64_t bucket_keys = 0;
+    tracker::AppSeconds bucket_apps;
+
+    auto flush_bucket = [&] {
+        if (!storage.flush(bucket_minute, bucket_keys, bucket_apps)) {
+            console.print("  !! save failed: " + storage.error() + "\n");
+        }
+        bucket_keys = 0;
+        bucket_apps.clear();
+    };
+
     while (WaitForSingleObject(g_stop_requested, kReportIntervalMs) == WAIT_TIMEOUT) {
-        const std::uint64_t delta = counter.take();
-        session_total += delta;
-        const auto apps = sampler.take();
-        for (const auto& [app, secs] : apps) session_apps[app] += secs;
-        console.print(timestamp() + "  keys +" + std::to_string(delta) + " (total " +
-                      std::to_string(session_total) + ")  now: " + sampler.last_state() +
-                      "  apps: " + format_apps(apps) + "\n");
+        const std::int64_t minute = now_minute_utc();
+        if (minute != bucket_minute) {
+            flush_bucket();
+            bucket_minute = minute;
+            console.print(timestamp() + "  [saved to database]\n");
+        }
+
+        const std::uint64_t keys = counter.take();
+        const tracker::AppSeconds apps = sampler.take();
+        bucket_keys += keys;
+        for (const auto& [app, secs] : apps) bucket_apps[app] += secs;
+
+        console.print(timestamp() + "  keys +" + std::to_string(keys) + "  now: " +
+                      sampler.last_state() + "  apps: " + format_apps(apps) + "\n");
     }
 
     hook.stop();
     sampler.stop();
-    session_total += counter.take();
-    for (const auto& [app, secs] : sampler.take()) session_apps[app] += secs;
-    console.print("\nStopped. Session: " + std::to_string(session_total) +
-                  " keystrokes. App time: " + format_apps(session_apps) + "\n");
+    bucket_keys += counter.take();
+    for (const auto& [app, secs] : sampler.take()) bucket_apps[app] += secs;
+    flush_bucket();
+
+    console.print("\nStopped and saved.\n");
+    print_today(console, storage);
 
     SetEvent(g_stopped);
     return 0;

@@ -53,12 +53,12 @@ Each phase ends with something working and demoable. Tick items off as you go.
 
 ---
 
-## Phase 3 — Persistence
+## Phase 3 — Persistence ✅
 
 **Goal:** data survives crashes and reboots.
 
-- [ ] SQLite DB at `%LOCALAPPDATA%\PortfolioTracker\tracker.db`
-- [ ] Schema:
+- [x] SQLite (3.46.1 amalgamation via `FetchContent`) DB at `%LOCALAPPDATA%\PortfolioTracker\tracker.db`; `Storage` class in `tracker/src/storage.cpp`
+- [x] Schema:
   ```sql
   CREATE TABLE input_minute (
     minute_utc INTEGER PRIMARY KEY,   -- unix time / 60
@@ -69,9 +69,10 @@ Each phase ends with something working and demoable. Tick items off as you go.
     PRIMARY KEY (minute_utc, app)
   );
   ```
-- [ ] Aggregator: every 60 s, atomically swap the counter to 0 and `UPSERT` the bucket
-- [ ] Flush on `WM_QUERYENDSESSION` / `WM_ENDSESSION`
-- [ ] WAL mode; wrap each flush in a transaction
+- [x] Aggregator (in `main_win.cpp`): every 5 s `take()` counts into the current minute's bucket; when the minute changes, additive `UPSERT` of the bucket. Final flush on Ctrl+C / window close / logoff / shutdown (console ctrl handler)
+- [ ] Flush on `WM_QUERYENDSESSION` / `WM_ENDSESSION` → moved to Phase 4 (needs the hidden window)
+- [x] WAL mode; each flush is one transaction
+- [x] `--console` prints today's saved totals at start and stop
 
 **Done when:** killing the process loses at most one minute of data.
 
