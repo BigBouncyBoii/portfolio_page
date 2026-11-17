@@ -27,11 +27,5 @@ if(WIN32)
     target_compile_definitions(tracker PRIVATE
         UNICODE _UNICODE WIN32_LEAN_AND_MEAN NOMINMAX)
 
-    if(MINGW)
-        # -municode: use wWinMain as entry point. -static: no MinGW DLLs needed at runtime.
-        target_compile_options(tracker PRIVATE -municode)
-        target_link_options(tracker PRIVATE -municode -static)
-    endif()
-
     tracker_configure_target(tracker)
 endif()

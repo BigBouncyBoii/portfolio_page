@@ -1,25 +1,26 @@
 # Implementation Plan
 
-Roadmap for the portfolio page + C++ activity tracker. See [`README.md`](README.md) for the architecture.
+Roadmap for the portfolio page + C++ activity tracker. See [`README.md`](README.md) for the architecture and build instructions.
+
+Development is Windows-native: edit, build (MSVC via CMake presets) and test on the same machine the tracker runs on. There is no CI; run `ctest --preset msvc` before committing.
 
 Each phase ends with something working and demoable. Tick items off as you go.
 
 ---
 
-## Phase 0 — Project setup
+## Phase 0 — Project setup ✅
 
-**Goal:** an empty `.exe` builds locally and in CI.
+**Goal:** an empty `tracker.exe` builds and runs on Windows.
 
 - [x] Create layout: `tracker/{src,include,tests}`, `site/`, `docs/`
 - [x] `CMakeLists.txt` (C++17, warnings-as-errors, GUI subsystem via `WIN32` executable)
-- [x] Dependencies via CMake `FetchContent` (GoogleTest now; SQLite / nlohmann-json added in later phases). Chosen over vcpkg: one mechanism that works for native Linux, MinGW cross-compile and MSVC
-- [x] `CMakePresets.json`: `linux` (tests), `mingw` (cross-compile), `msvc` (native Windows)
-- [x] MinGW-w64 toolchain file for cross-compiling from WSL (`x86_64-w64-mingw32-g++`)
+- [x] Dependencies via CMake `FetchContent` (GoogleTest now; SQLite / nlohmann-json added in later phases), no package manager needed
+- [x] `CMakePresets.json`: `msvc` configure preset, `msvc` (Release) / `msvc-debug` build presets, `msvc` test preset
 - [x] `.gitignore`, `.clang-format`
 - [x] Minimal `tracker.exe` with `--help`, `--version`, `--console` + unit-tested arg parser
-- [x] GitHub Actions: MSVC build + tests + smoke test + artifact upload; Linux tests; MinGW cross-compile
+- [x] Verified on Windows: configure, build, 8/8 tests pass, `tracker.exe --version` prints `tracker 0.1.0`
 
-**Done when:** pushing to `main` produces a downloadable `tracker.exe` that runs and exits cleanly.
+**Done when:** `cmake --preset msvc && cmake --build --preset msvc && ctest --preset msvc` succeeds and `tracker.exe --version` runs and exits cleanly.
 
 ---
 
@@ -121,7 +122,7 @@ Each phase ends with something working and demoable. Tick items off as you go.
 - [ ] Charts (Chart.js): keystrokes per hour today, top apps (bar), 30-day trend (line)
 - [ ] "Last updated X min ago" indicator; graceful fallback if fetch fails
 - [ ] Short "How this works" blurb linking to the repo/architecture
-- [ ] Enable GitHub Pages from `main` → `/site` (or via Actions deploy)
+- [ ] Enable GitHub Pages from `main` → `/site`
 
 **Done when:** the public URL shows real data from today.
 
@@ -132,8 +133,8 @@ Each phase ends with something working and demoable. Tick items off as you go.
 - [ ] Measure and document resource usage (CPU %, RAM, DB size/month) in README
 - [ ] Architecture diagram as an image in `docs/`
 - [ ] Design-notes doc: hook threading, idle logic, privacy choices, trade-offs vs. a hosted server
-- [ ] Code coverage in CI
-- [ ] Tag `v1.0.0` release with `tracker.exe` attached
+- [ ] Code coverage report (e.g. OpenCppCoverage) for the core library
+- [ ] Tag `v1.0.0` release with a locally built `tracker.exe` attached (`gh release create`)
 
 ---
 
@@ -157,4 +158,3 @@ Each phase ends with something working and demoable. Tick items off as you go.
 | Token leak | Credential Manager, minimal-scope fine-grained PAT, never committed |
 | Commit spam in history | Publish to a separate `data` branch/repo |
 | Sleep/idle inflating app time | Idle threshold + power/session notifications |
-| Developing in WSL but targeting Windows | MinGW cross-compile locally; CI builds natively on `windows-latest` |

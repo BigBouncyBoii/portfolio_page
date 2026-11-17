@@ -81,26 +81,18 @@ tracker.exe               # normal run (invoked automatically at login)
 
 ## Building
 
-Requires CMake ≥ 3.21 and a C++17 compiler. Dependencies (GoogleTest, and later SQLite / nlohmann-json) are fetched automatically by CMake `FetchContent`; there's no package manager to install.
+Developed and built natively on Windows. Requires **Visual Studio 2022 or later** (or the standalone Build Tools) with the *Desktop development with C++* workload, which includes MSVC and CMake. Dependencies (GoogleTest, and later SQLite / nlohmann-json) are fetched automatically by CMake `FetchContent`, so there's no package manager to install.
 
-| Preset | Host | Produces |
-|---|---|---|
-| `linux` | Linux / WSL | `tracker_core` + unit tests (no `.exe`) |
-| `mingw` | Linux / WSL | `build/mingw/bin/tracker.exe` (cross-compiled, static) |
-| `msvc` | Windows | `build/msvc/bin/Release/tracker.exe` + unit tests |
+Open a **Developer PowerShell for VS** (Start menu) and, from the repo root:
 
-```bash
-# Unit tests (WSL / Linux)
-cmake --preset linux && cmake --build --preset linux && ctest --preset linux
-
-# Windows .exe from WSL (one-time: sudo apt install mingw-w64)
-cmake --preset mingw && cmake --build --preset mingw
-
-# Native Windows (Developer PowerShell)
-cmake --preset msvc; cmake --build --preset msvc; ctest --preset msvc
+```powershell
+cmake --preset msvc                  # configure (first run downloads GoogleTest)
+cmake --build --preset msvc          # build Release -> build\msvc\bin\Release\tracker.exe
+ctest --preset msvc                  # run unit tests
+build\msvc\bin\Release\tracker.exe --version
 ```
 
-CI (`.github/workflows/build.yml`) runs all three on every push and uploads `tracker.exe` as a build artifact.
+Use `cmake --build --preset msvc-debug` for a Debug build (`build\msvc\bin\Debug\`). Alternatively, open the folder in Visual Studio or VS Code (CMake Tools extension), and the `msvc` preset is picked up automatically.
 
 ## Repository layout
 
@@ -109,7 +101,7 @@ tracker/
   include/tracker/   public headers (platform-independent)
   src/               core logic + main_win.cpp (Windows entry point)
   tests/             GoogleTest unit tests
-cmake/               compiler options, MinGW toolchain
+cmake/               shared compiler options
 site/                static frontend served by GitHub Pages
 docs/                design notes
 plan.md              implementation roadmap
