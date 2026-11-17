@@ -2,7 +2,7 @@
 
 Roadmap for the portfolio page + C++ activity tracker. See [`README.md`](README.md) for the architecture and build instructions.
 
-Development is Windows-native: edit, build (MSVC via CMake presets) and test on the same machine the tracker runs on. There is no CI; run `ctest --preset msvc` before committing.
+Development is Windows-native: edit, build (MSVC via CMake presets) and test on the same machine the tracker runs on. There is no CI. Keep it simple: from Phase 2 on, no new unit tests; verify manually with `tracker.exe --console`.
 
 Each phase ends with something working and demoable. Tick items off as you go.
 
@@ -39,15 +39,15 @@ Each phase ends with something working and demoable. Tick items off as you go.
 
 ---
 
-## Phase 2 — App time tracking
+## Phase 2 — App time tracking ✅
 
 **Goal:** know how long each app was in the foreground.
 
-- [ ] `FocusSampler`: 1 Hz timer → `GetForegroundWindow` → PID → exe name
-- [ ] Cache PID → exe name to avoid repeated `OpenProcess` calls
-- [ ] Idle detection via `GetLastInputInfo` (threshold configurable, default 120 s)
-- [ ] Pause on lock screen (`WTSRegisterSessionNotification`) and sleep (`WM_POWERBROADCAST`)
-- [ ] Unit-test the time-attribution logic with an injected fake clock/window source
+- [x] `FocusSampler` (`src/focus_sampler_win.*`): 1 Hz thread → `GetForegroundWindow` → PID → exe name (no window titles)
+- [x] Cache PID → exe name (cleared every 10 min since PIDs get reused)
+- [x] Idle detection via `GetLastInputInfo` (default 120 s)
+- [x] Lock screen: no foreground window or `LockApp.exe` → not counted. Sleep: adds 1 s per tick, not wall-clock time, so sleeping adds nothing (simpler than `WTSRegisterSessionNotification` / `WM_POWERBROADCAST`)
+- [x] `--console` shows keys, current app/idle/locked state and per-app seconds every 5 s
 
 **Done when:** leaving the PC idle or locked stops time accumulating.
 
@@ -72,7 +72,6 @@ Each phase ends with something working and demoable. Tick items off as you go.
 - [ ] Aggregator: every 60 s, atomically swap the counter to 0 and `UPSERT` the bucket
 - [ ] Flush on `WM_QUERYENDSESSION` / `WM_ENDSESSION`
 - [ ] WAL mode; wrap each flush in a transaction
-- [ ] Tests for aggregation against an in-memory DB
 
 **Done when:** killing the process loses at most one minute of data.
 
@@ -106,7 +105,6 @@ Each phase ends with something working and demoable. Tick items off as you go.
 - [ ] Sanitiser: app allowlist → friendly names, rest → `"Other"`; no titles, no raw events
 - [ ] HTTPS client (WinHTTP or cpr): `GET` file SHA → `PUT /repos/{owner}/{repo}/contents/{path}`
 - [ ] Publish every 15–30 min; skip if nothing changed; exponential backoff on network failure
-- [ ] Tests for JSON shape and sanitiser
 
 **Done when:** `summary.json` on GitHub updates on its own throughout the day.
 

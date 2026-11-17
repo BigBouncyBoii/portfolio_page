@@ -7,9 +7,11 @@
 
 #include <cstdint>
 #include <cstdio>
+#include <map>
 #include <string>
 #include <vector>
 
+#include "focus_sampler_win.hpp"
 #include "keyboard_hook_win.hpp"
 #include "tracker/cli.hpp"
 #include "tracker/key_counter.hpp"
@@ -131,6 +133,16 @@ std::string timestamp() {
     return buf;
 }
 
+// "Code.exe 4s, chrome.exe 1s"
+std::string format_apps(const std::map<std::string, std::uint64_t>& apps) {
+    std::string out;
+    for (const auto& [app, secs] : apps) {
+        if (!out.empty()) out += ", ";
+        out += app + " " + std::to_string(secs) + "s";
+    }
+    return out.empty() ? "-" : out;
+}
+
 int run_console() {
     constexpr DWORD kReportIntervalMs = 5000;
 
@@ -148,21 +160,31 @@ int run_console() {
         return 1;
     }
 
+    tracker::FocusSampler sampler;
+    sampler.start();
+
     console.print(std::string(tracker::kName) + " " + tracker::kVersion +
-                  ": counting keystrokes (keyboard only, counts only).\n"
+                  ": counting keystrokes and foreground app time.\n"
                   "Press Ctrl+C or close this window to stop.\n\n");
 
     std::uint64_t session_total = 0;
+    std::map<std::string, std::uint64_t> session_apps;
     while (WaitForSingleObject(g_stop_requested, kReportIntervalMs) == WAIT_TIMEOUT) {
         const std::uint64_t delta = counter.take();
         session_total += delta;
-        console.print(timestamp() + "  keys +" + std::to_string(delta) +
-                      "  (session total " + std::to_string(session_total) + ")\n");
+        const auto apps = sampler.take();
+        for (const auto& [app, secs] : apps) session_apps[app] += secs;
+        console.print(timestamp() + "  keys +" + std::to_string(delta) + " (total " +
+                      std::to_string(session_total) + ")  now: " + sampler.last_state() +
+                      "  apps: " + format_apps(apps) + "\n");
     }
 
     hook.stop();
+    sampler.stop();
     session_total += counter.take();
-    console.print("\nStopped. Session total: " + std::to_string(session_total) + " keystrokes.\n");
+    for (const auto& [app, secs] : sampler.take()) session_apps[app] += secs;
+    console.print("\nStopped. Session: " + std::to_string(session_total) +
+                  " keystrokes. App time: " + format_apps(session_apps) + "\n");
 
     SetEvent(g_stopped);
     return 0;

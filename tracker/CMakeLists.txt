@@ -23,7 +23,8 @@ tracker_configure_target(tracker_core)
 if(WIN32)
     # tracker_win: Win32 collectors (keyboard hook; later the focus sampler).
     add_library(tracker_win STATIC
-        src/keyboard_hook_win.cpp)
+        src/keyboard_hook_win.cpp
+        src/focus_sampler_win.cpp)
     target_include_directories(tracker_win PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
     target_link_libraries(tracker_win PUBLIC tracker_core user32)
     target_compile_definitions(tracker_win PUBLIC
