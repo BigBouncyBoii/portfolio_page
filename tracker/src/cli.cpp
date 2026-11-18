@@ -15,6 +15,12 @@ ParseResult parse_args(const std::vector<std::string>& args) {
             command = Command::Help;
         } else if (arg == "--version" || arg == "-v") {
             command = Command::Version;
+        } else if (arg == "--install") {
+            command = Command::Install;
+        } else if (arg == "--uninstall") {
+            command = Command::Uninstall;
+        } else if (arg == "--publish-now") {
+            command = Command::PublishNow;
         } else if (arg == "--console") {
             opts.console = true;
         } else {
@@ -41,9 +47,14 @@ std::string usage() {
            "Usage: tracker.exe [options]\n"
            "\n"
            "Options:\n"
-           "  -h, --help       Show this help and exit\n"
-           "  -v, --version    Show version and exit\n"
-           "      --console    Open a debug console window showing live counts\n";
+           "  -h, --help         Show this help and exit\n"
+           "  -v, --version      Show version and exit\n"
+           "      --console      Run with a debug console window showing live counts\n"
+           "      --install      Copy to %LOCALAPPDATA%\\PortfolioTracker, start at login, launch\n"
+           "      --uninstall    Stop the tracker and remove auto-start (data is kept)\n"
+           "      --publish-now  Ask the running tracker to publish stats now\n"
+           "\n"
+           "With no options, runs in the background with a tray icon.\n";
 }
 
 }  // namespace tracker

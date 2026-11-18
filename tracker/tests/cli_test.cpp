@@ -62,7 +62,7 @@ TEST(ParseArgs, ConflictingCommandsAreError) {
 TEST(Usage, MentionsVersionAndAllOptions) {
     const std::string text = tracker::usage();
     EXPECT_NE(text.find(tracker::kVersion), std::string::npos);
-    for (const char* opt : {"--help", "--version", "--console"}) {
+    for (const char* opt : {"--help", "--version", "--console", "--install", "--uninstall", "--publish-now"}) {
         EXPECT_NE(text.find(opt), std::string::npos) << opt;
     }
 }

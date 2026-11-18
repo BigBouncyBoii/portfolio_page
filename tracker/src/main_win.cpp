@@ -7,36 +7,23 @@
 
 #include <cstdint>
 #include <cstdio>
-#include <ctime>
 #include <map>
 #include <string>
 #include <vector>
 
-#include "focus_sampler_win.hpp"
-#include "keyboard_hook_win.hpp"
+#include "lifecycle_win.hpp"
+#include "session_win.hpp"
 #include "tracker/cli.hpp"
-#include "tracker/key_counter.hpp"
-#include "tracker/storage.hpp"
+#include "tracker/config.hpp"
+#include "tracker/logger.hpp"
 #include "tracker/version.hpp"
+#include "tray_win.hpp"
+#include "util_win.hpp"
 
 namespace {
 
-std::string to_utf8(const wchar_t* wide) {
-    const int len = WideCharToMultiByte(CP_UTF8, 0, wide, -1, nullptr, 0, nullptr, nullptr);
-    if (len <= 1) return {};
-    std::string out(static_cast<size_t>(len - 1), '\0');
-    WideCharToMultiByte(CP_UTF8, 0, wide, -1, out.data(), len, nullptr, nullptr);
-    return out;
-}
-
-std::wstring to_wide(const std::string& utf8) {
-    if (utf8.empty()) return {};
-    const int src_len = static_cast<int>(utf8.size());
-    const int len = MultiByteToWideChar(CP_UTF8, 0, utf8.data(), src_len, nullptr, 0);
-    std::wstring out(static_cast<size_t>(len), L'\0');
-    MultiByteToWideChar(CP_UTF8, 0, utf8.data(), src_len, out.data(), len);
-    return out;
-}
+using tracker::to_utf8;
+using tracker::to_wide;
 
 std::vector<std::string> get_args() {
     int argc = 0;
@@ -87,12 +74,12 @@ void show(const std::string& text, UINT icon) {
 // ---------------------------------------------------------------------------
 
 HANDLE g_stop_requested = nullptr;  // set by Ctrl+C / closing the window
-HANDLE g_stopped = nullptr;         // set once the hook is removed
+HANDLE g_stopped = nullptr;         // set once everything is saved
 
 BOOL WINAPI on_console_ctrl(DWORD type) {
     SetEvent(g_stop_requested);
     // For close/logoff/shutdown, Windows kills the process as soon as this
-    // handler returns, so give the main thread time to unhook cleanly first.
+    // handler returns, so give the main thread time to save first.
     if (type == CTRL_CLOSE_EVENT || type == CTRL_LOGOFF_EVENT || type == CTRL_SHUTDOWN_EVENT) {
         WaitForSingleObject(g_stopped, 4000);
     }
@@ -145,35 +132,12 @@ std::string format_apps(const std::map<std::string, std::uint64_t>& apps) {
     return out.empty() ? "-" : out;
 }
 
-std::int64_t now_minute_utc() {
-    return static_cast<std::int64_t>(std::time(nullptr)) / 60;
+void print_today(const DebugConsole& console, tracker::Session& session) {
+    console.print("Today: " + std::to_string(session.keys_today()) +
+                  " keys; apps: " + format_apps(session.apps_today()) + "\n\n");
 }
 
-std::int64_t local_midnight_minute_utc() {
-    const std::time_t now = std::time(nullptr);
-    std::tm local{};
-    localtime_s(&local, &now);
-    local.tm_hour = local.tm_min = local.tm_sec = 0;
-    return static_cast<std::int64_t>(std::mktime(&local)) / 60;
-}
-
-// %LOCALAPPDATA%\PortfolioTracker (created if missing).
-std::wstring data_dir() {
-    wchar_t buf[MAX_PATH];
-    const DWORD n = GetEnvironmentVariableW(L"LOCALAPPDATA", buf, MAX_PATH);
-    if (n == 0 || n >= MAX_PATH) return L".";
-    std::wstring dir = std::wstring(buf) + L"\\PortfolioTracker";
-    CreateDirectoryW(dir.c_str(), nullptr);
-    return dir;
-}
-
-void print_today(const DebugConsole& console, tracker::Storage& storage) {
-    const std::int64_t since = local_midnight_minute_utc();
-    console.print("Today (saved): " + std::to_string(storage.keys_since(since)) +
-                  " keys; apps: " + format_apps(storage.app_seconds_since(since)) + "\n\n");
-}
-
-int run_console() {
+int run_console(const tracker::Config& config, tracker::Logger& log) {
     constexpr DWORD kReportIntervalMs = 5000;
 
     g_stop_requested = CreateEventW(nullptr, TRUE, FALSE, nullptr);
@@ -182,70 +146,40 @@ int run_console() {
     DebugConsole console;
     SetConsoleCtrlHandler(on_console_ctrl, TRUE);
 
-    tracker::KeyCounter counter;
-    tracker::KeyboardHook hook(counter);
-    if (!hook.start()) {
-        MessageBoxW(nullptr, to_wide("Could not install keyboard hook: " + hook.error()).c_str(),
-                    L"tracker", MB_OK | MB_ICONERROR);
+    const std::string db_path = tracker::data_path(L"tracker.db");
+    tracker::Session session(config.idle_threshold_s);
+    if (!session.start(db_path)) {
+        log.write("start failed: " + session.error());
+        MessageBoxW(nullptr, to_wide(session.error()).c_str(), L"tracker", MB_OK | MB_ICONERROR);
         return 1;
     }
-
-    tracker::FocusSampler sampler;
-    sampler.start();
-
-    const std::string db_path = to_utf8(data_dir().c_str()) + "\\tracker.db";
-    tracker::Storage storage;
-    if (!storage.open(db_path)) {
-        MessageBoxW(nullptr, to_wide("Could not open database: " + storage.error()).c_str(),
-                    L"tracker", MB_OK | MB_ICONERROR);
-        return 1;
-    }
+    log.write("running in console mode");
 
     console.print(std::string(tracker::kName) + " " + tracker::kVersion +
                   ": counting keystrokes and foreground app time.\n"
-                  "Database: " + db_path + " (saved once per minute)\n"
+                  "Data folder: " + to_utf8(tracker::data_dir().c_str()) +
+                  " (db saved once per minute; config.json, tracker.log)\n"
+                  "Idle threshold: " + std::to_string(config.idle_threshold_s) + " s\n"
                   "Press Ctrl+C or close this window to stop.\n\n");
-    print_today(console, storage);
-
-    // Aggregator: accumulate into the current minute's bucket and write it to
-    // SQLite when the minute changes (so a crash loses at most ~1 minute).
-    std::int64_t bucket_minute = now_minute_utc();
-    std::uint64_t bucket_keys = 0;
-    tracker::AppSeconds bucket_apps;
-
-    auto flush_bucket = [&] {
-        if (!storage.flush(bucket_minute, bucket_keys, bucket_apps)) {
-            console.print("  !! save failed: " + storage.error() + "\n");
-        }
-        bucket_keys = 0;
-        bucket_apps.clear();
-    };
+    print_today(console, session);
 
     while (WaitForSingleObject(g_stop_requested, kReportIntervalMs) == WAIT_TIMEOUT) {
-        const std::int64_t minute = now_minute_utc();
-        if (minute != bucket_minute) {
-            flush_bucket();
-            bucket_minute = minute;
-            console.print(timestamp() + "  [saved to database]\n");
+        const tracker::Session::Tick t = session.tick();
+        if (t.saved) {
+            console.print(timestamp() + (session.error().empty()
+                                             ? "  [saved to database]\n"
+                                             : "  !! " + session.error() + "\n"));
         }
-
-        const std::uint64_t keys = counter.take();
-        const tracker::AppSeconds apps = sampler.take();
-        bucket_keys += keys;
-        for (const auto& [app, secs] : apps) bucket_apps[app] += secs;
-
-        console.print(timestamp() + "  keys +" + std::to_string(keys) + "  now: " +
-                      sampler.last_state() + "  apps: " + format_apps(apps) + "\n");
+        console.print(timestamp() + "  keys +" + std::to_string(t.keys) +
+                      "  now: " + session.state() + "  apps: " + format_apps(t.apps) + "\n");
     }
 
-    hook.stop();
-    sampler.stop();
-    bucket_keys += counter.take();
-    for (const auto& [app, secs] : sampler.take()) bucket_apps[app] += secs;
-    flush_bucket();
+    session.stop();
+    if (!session.error().empty()) console.print("!! " + session.error() + "\n");
+    log.write("stopped (console mode)");
 
     console.print("\nStopped and saved.\n");
-    print_today(console, storage);
+    print_today(console, session);
 
     SetEvent(g_stopped);
     return 0;
@@ -261,6 +195,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
     }
 
     const tracker::Options& opts = *parsed.options;
+    std::string message;
 
     switch (opts.command) {
         case tracker::Command::Help:
@@ -270,17 +205,41 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
             show(std::string(tracker::kName) + " " + tracker::kVersion + "\n",
                  MB_ICONINFORMATION);
             return 0;
+        case tracker::Command::Install: {
+            const bool ok = tracker::install(message);
+            show(message, ok ? MB_ICONINFORMATION : MB_ICONERROR);
+            return ok ? 0 : 1;
+        }
+        case tracker::Command::Uninstall: {
+            const bool ok = tracker::uninstall(message);
+            show(message, ok ? MB_ICONINFORMATION : MB_ICONERROR);
+            return ok ? 0 : 1;
+        }
+        case tracker::Command::PublishNow:
+            if (tracker::request_publish()) {
+                show("Publish requested.\n", MB_ICONINFORMATION);
+                return 0;
+            }
+            show("tracker is not running in the background.\n", MB_ICONERROR);
+            return 1;
         case tracker::Command::Run:
             break;
     }
 
-    if (opts.console) {
-        return run_console();
+    if (!tracker::acquire_single_instance()) {
+        show("tracker is already running (check the tray icon or an open --console window).\n",
+             MB_ICONINFORMATION);
+        return 1;
     }
 
-    // Background (tray) mode arrives in Phase 4; until then there would be no
-    // way to see or stop a hidden tracker, so point at debug mode instead.
-    show("Background mode is not implemented yet. Run: tracker.exe --console\n",
-         MB_ICONINFORMATION);
-    return 0;
+    tracker::Logger log;
+    log.open(tracker::data_path(L"tracker.log"));
+    log.write(std::string("---- ") + tracker::kName + " " + tracker::kVersion + " starting");
+
+    std::string config_error;
+    const tracker::Config config =
+        tracker::load_config(tracker::data_path(L"config.json"), config_error);
+    if (!config_error.empty()) log.write(config_error + " (using defaults)");
+
+    return opts.console ? run_console(config, log) : tracker::run_background(config, log);
 }

@@ -19,9 +19,10 @@ Output: `build\msvc\bin\Release\tracker.exe`. Warnings are errors (`/W4 /WX`). E
 
 ## Layout
 - `tracker/include/tracker/`, `tracker/src/cli.cpp`, `key_counter.cpp`, `storage.cpp` → `tracker_core` (platform-independent; `Storage` = SQLite per-minute buckets, DB at `%LOCALAPPDATA%\PortfolioTracker\tracker.db`)
-- SQLite amalgamation is fetched by `FetchContent` in `tracker/CMakeLists.txt` and built as a C static lib (no `/WX`)
-- `tracker/src/*_win.{hpp,cpp}` → `tracker_win` (Win32: `KeyboardHook` = `WH_KEYBOARD_LL` on its own thread; `FocusSampler` = 1 Hz foreground exe + idle/lock detection)
-- `tracker/src/main_win.cpp` → `tracker.exe` (GUI subsystem; `--console` opens a debug console printing stats every 5 s; plain run just shows a hint until Phase 4)
+- SQLite amalgamation (built as a C static lib, no `/WX`) and header-only nlohmann/json are fetched by `FetchContent` in `tracker/CMakeLists.txt`
+- `tracker/src/*_win.{hpp,cpp}` → `tracker_win` (Win32: `KeyboardHook` = `WH_KEYBOARD_LL` on its own thread; `FocusSampler` = 1 Hz foreground exe + idle/lock detection; `Session` = hook + sampler + per-minute aggregator; `tray_win` = background mode (hidden window + tray icon); `lifecycle_win` = mutex, `--install`/`--uninstall`/`--publish-now`; `util_win` = string/path helpers)
+- `tracker/src/main_win.cpp` → `tracker.exe` (GUI subsystem; plain run = tray mode; `--console` opens a debug console printing stats every 5 s)
+- Only one tracker runs at a time (named mutex): quit the tray instance before `--console`. Other invocations find it via `FindWindowW(L"PortfolioTracker.Window")`
 - `site/` static frontend (plain HTML, **zero CSS**), `docs/` notes
 
 ## Gotchas

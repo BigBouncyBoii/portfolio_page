@@ -71,13 +71,17 @@ The site is deliberately plain HTML with **no CSS at all**: no stylesheets, no `
 
 ---
 
-## Usage (planned)
+## Usage
 
 ```powershell
-tracker.exe --install     # copy to %LOCALAPPDATA%, register auto-start, launch
-tracker.exe --uninstall   # remove auto-start entry
-tracker.exe               # normal run (invoked automatically at login)
+tracker.exe --install      # copy to %LOCALAPPDATA%\PortfolioTracker, auto-start at login, launch
+tracker.exe --uninstall    # stop it and remove auto-start (data is kept)
+tracker.exe                # background run with tray icon (invoked automatically at login)
+tracker.exe --console      # debug run with a console window showing live counts
+tracker.exe --publish-now  # ask the running tracker to publish now
 ```
+
+Right-click (or left-click) the tray icon for **Pause / Resume**, **Publish now** and **Quit**; hover it for today's keystroke count. Data, settings and logs live in `%LOCALAPPDATA%\PortfolioTracker\` (`tracker.db`, `config.json`, `tracker.log`). Edit `config.json` and restart the tracker to change the idle threshold, publish interval or app allowlist.
 
 ## Building
 

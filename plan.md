@@ -70,7 +70,7 @@ Each phase ends with something working and demoable. Tick items off as you go.
   );
   ```
 - [x] Aggregator (in `main_win.cpp`): every 5 s `take()` counts into the current minute's bucket; when the minute changes, additive `UPSERT` of the bucket. Final flush on Ctrl+C / window close / logoff / shutdown (console ctrl handler)
-- [ ] Flush on `WM_QUERYENDSESSION` / `WM_ENDSESSION` → moved to Phase 4 (needs the hidden window)
+- [x] Flush on `WM_QUERYENDSESSION` / `WM_ENDSESSION` → done in Phase 4 (hidden window)
 - [x] WAL mode; each flush is one transaction
 - [x] `--console` prints today's saved totals at start and stop
 
@@ -78,17 +78,18 @@ Each phase ends with something working and demoable. Tick items off as you go.
 
 ---
 
-## Phase 4 — Lifecycle & background running
+## Phase 4 — Lifecycle & background running ✅
 
 **Goal:** set-and-forget daily operation.
 
-- [ ] CLI flags: `--install`, `--uninstall`, `--console`, `--publish-now`
-- [ ] `--install`: copy exe to `%LOCALAPPDATA%\PortfolioTracker\`, write `HKCU\...\Run` entry, launch
-- [ ] Single-instance named mutex
-- [ ] Hidden message-only window to receive system messages
-- [ ] Tray icon: status tooltip (today's keystrokes), **Pause / Resume**, **Publish now**, **Quit**
-- [ ] File logger with rotation (`tracker.log`)
-- [ ] Config file (`config.json`): idle threshold, publish interval, app allowlist
+- [x] CLI flags: `--install`, `--uninstall`, `--console`, `--publish-now` (publish-now posts a message to the running tracker; it just logs until Phase 5)
+- [x] `--install`: stop any running tracker, copy exe to `%LOCALAPPDATA%\PortfolioTracker\`, write `HKCU\...\Run` (`PortfolioTracker`) entry, launch. `--uninstall`: stop it, remove the Run entry and installed exe, keep data
+- [x] Single-instance named mutex (`Local\PortfolioTracker.Instance`, covers tray and console mode)
+- [x] Hidden window to receive system messages: a hidden *top-level* window rather than message-only, because message-only windows miss broadcasts (`WM_QUERYENDSESSION`, `TaskbarCreated`). Save on `WM_QUERYENDSESSION`, stop + save on `WM_ENDSESSION`
+- [x] Tray icon: status tooltip (today's keystrokes), **Pause / Resume**, **Publish now**, **Quit**; re-added if Explorer restarts
+- [x] File logger with rotation (`tracker.log`, rotated to `tracker.log.1` at 1 MB)
+- [x] Config file (`config.json`, written with defaults on first run; nlohmann/json via `FetchContent`): idle threshold, publish interval, app allowlist
+- [x] Shared `Session` (`session_win.*`) = hook + sampler + per-minute aggregator, used by both tray and console mode
 
 **Done when:** after one `--install`, tracking resumes automatically after every reboot.
 
