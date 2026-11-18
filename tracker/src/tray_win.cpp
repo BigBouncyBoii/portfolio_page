@@ -40,29 +40,38 @@ std::wstring format_duration(std::uint64_t secs) {
     return std::to_wstring(mins / 60) + L"h " + std::to_wstring(mins % 60) + L"m";
 }
 
+// Today's apps by foreground time, most used first, ".exe" stripped.
+std::vector<std::pair<std::wstring, std::uint64_t>> top_apps_today(size_t limit) {
+    const AppSeconds apps = g_app->session->apps_today();
+    std::vector<std::pair<std::string, std::uint64_t>> sorted(apps.begin(), apps.end());
+    std::sort(sorted.begin(), sorted.end(),
+              [](const auto& a, const auto& b) { return a.second > b.second; });
+
+    std::vector<std::pair<std::wstring, std::uint64_t>> out;
+    for (size_t i = 0; i < sorted.size() && i < limit; ++i) {
+        std::wstring name = to_wide(sorted[i].first);
+        if (name.size() > 4 && _wcsicmp(name.c_str() + name.size() - 4, L".exe") == 0) {
+            name.resize(name.size() - 4);
+        }
+        out.emplace_back(std::move(name), sorted[i].second);
+    }
+    return out;
+}
+
 // Two lines: today's keystrokes, then the top apps by foreground time, e.g.
 //   tracker: 4213 keystrokes today
 //   Code 2h 10m · chrome 45m · WindowsTerminal 12m
 void update_tray(DWORD action) {
-    constexpr size_t kTopApps = 3;
     constexpr size_t kMaxTip = std::size(NOTIFYICONDATAW{}.szTip) - 1;  // 127 chars
 
     std::wstring tip = L"tracker: " + std::to_wstring(g_app->session->keys_today()) +
                        L" keystrokes today";
     if (g_app->session->paused()) tip += L" (paused)";
 
-    const AppSeconds apps = g_app->session->apps_today();
-    std::vector<std::pair<std::string, std::uint64_t>> top(apps.begin(), apps.end());
-    std::sort(top.begin(), top.end(),
-              [](const auto& a, const auto& b) { return a.second > b.second; });
-
-    for (size_t i = 0; i < top.size() && i < kTopApps; ++i) {
-        std::wstring name = to_wide(top[i].first);
-        if (name.size() > 4 && _wcsicmp(name.c_str() + name.size() - 4, L".exe") == 0) {
-            name.resize(name.size() - 4);
-        }
-        const std::wstring entry =
-            (i == 0 ? L"\n" : L" · ") + name + L" " + format_duration(top[i].second);
+    const auto top = top_apps_today(3);
+    for (size_t i = 0; i < top.size(); ++i) {
+        const std::wstring entry = (i == 0 ? L"\n" : L" · ") + top[i].first + L" " +
+                                   format_duration(top[i].second);
         if (tip.size() + entry.size() > kMaxTip) break;  // keep whole entries only
         tip += entry;
     }
@@ -96,8 +105,43 @@ void on_command(HWND hwnd, UINT cmd) {
     }
 }
 
+// Read-only (greyed) menu line. A tab right-aligns the text after it.
+void add_info(HMENU menu, const std::wstring& text) {
+    AppendMenuW(menu, MF_STRING | MF_GRAYED, 0, text.c_str());
+}
+
+// Menu = today's stats (read-only) + actions:
+//   Keystrokes today        4213
+//     Last hour              512
+//     Busiest minute         143
+//     Avg per active minute   38
+//   ──────────
+//   Top apps today
+//     Code                2h 10m
+//     ...
+//   ──────────
+//   Pause / Publish now / Quit
 void show_menu(HWND hwnd) {
+    constexpr size_t kMenuApps = 8;
+    Session& session = *g_app->session;
+
     HMENU menu = CreatePopupMenu();
+
+    const KeyStats keys = session.key_stats_today();
+    const std::uint64_t avg = keys.active_minutes ? keys.total / keys.active_minutes : 0;
+    add_info(menu, L"Keystrokes today\t" + std::to_wstring(keys.total));
+    add_info(menu, L"    Last hour\t" + std::to_wstring(session.keys_last_hour()));
+    add_info(menu, L"    Busiest minute\t" + std::to_wstring(keys.peak_minute));
+    add_info(menu, L"    Avg per active minute\t" + std::to_wstring(avg));
+    AppendMenuW(menu, MF_SEPARATOR, 0, nullptr);
+
+    const auto apps = top_apps_today(kMenuApps);
+    add_info(menu, apps.empty() ? L"No app time yet today" : L"Top apps today");
+    for (const auto& [name, secs] : apps) {
+        add_info(menu, L"    " + name + L"\t" + format_duration(secs));
+    }
+    AppendMenuW(menu, MF_SEPARATOR, 0, nullptr);
+
     AppendMenuW(menu, MF_STRING, kCmdPause, g_app->session->paused() ? L"Resume" : L"Pause");
     AppendMenuW(menu, MF_STRING, kCmdPublish, L"Publish now");
     AppendMenuW(menu, MF_SEPARATOR, 0, nullptr);

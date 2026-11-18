@@ -99,6 +99,24 @@ std::uint64_t Storage::keys_since(std::int64_t minute_utc) {
     return static_cast<std::uint64_t>(sqlite3_column_int64(st.s, 0));
 }
 
+KeyStats Storage::key_stats_since(std::int64_t minute_utc) {
+    KeyStats out;
+    Stmt st;
+    if (sqlite3_prepare_v2(db_,
+                           "SELECT COALESCE(SUM(keys), 0), COUNT(*), COALESCE(MAX(keys), 0) "
+                           "FROM input_minute WHERE minute_utc >= ? AND keys > 0",
+                           -1, &st.s, nullptr) != SQLITE_OK) {
+        fail("query");
+        return out;
+    }
+    sqlite3_bind_int64(st.s, 1, minute_utc);
+    if (sqlite3_step(st.s) != SQLITE_ROW) return out;
+    out.total = static_cast<std::uint64_t>(sqlite3_column_int64(st.s, 0));
+    out.active_minutes = static_cast<std::uint64_t>(sqlite3_column_int64(st.s, 1));
+    out.peak_minute = static_cast<std::uint64_t>(sqlite3_column_int64(st.s, 2));
+    return out;
+}
+
 AppSeconds Storage::app_seconds_since(std::int64_t minute_utc) {
     AppSeconds out;
     Stmt st;

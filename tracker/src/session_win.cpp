@@ -1,5 +1,7 @@
 #include "session_win.hpp"
 
+#include <algorithm>
+
 #include "util_win.hpp"
 
 namespace tracker {
@@ -63,6 +65,20 @@ void Session::stop() {
 
 std::uint64_t Session::keys_today() {
     return storage_.keys_since(local_midnight_minute_utc()) + bucket_keys_;
+}
+
+std::uint64_t Session::keys_last_hour() {
+    return storage_.keys_since(now_minute_utc() - 60) + bucket_keys_;
+}
+
+KeyStats Session::key_stats_today() {
+    KeyStats s = storage_.key_stats_since(local_midnight_minute_utc());
+    if (bucket_keys_ > 0) {
+        s.total += bucket_keys_;
+        s.active_minutes += 1;
+        s.peak_minute = std::max(s.peak_minute, bucket_keys_);
+    }
+    return s;
 }
 
 AppSeconds Session::apps_today() {

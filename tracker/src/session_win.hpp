@@ -40,7 +40,10 @@ public:
     void set_paused(bool paused) { paused_ = paused; }
     bool paused() const { return paused_; }
 
-    std::uint64_t keys_today();  // saved + not yet saved
+    // All include the current, not-yet-saved minute.
+    std::uint64_t keys_today();
+    std::uint64_t keys_last_hour();
+    KeyStats key_stats_today();
     AppSeconds apps_today();
     std::string state() { return sampler_.last_state(); }
     const std::string& error() const { return error_; }  // last start/save error
