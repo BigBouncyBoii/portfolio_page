@@ -26,7 +26,7 @@ Each phase ends with something working and demoable. Tick items off as you go.
 
 ## Phase 1 — Input counting ✅
 
-**Goal:** count keystrokes in memory. Keyboard only: no mouse metrics are collected (the machine is a laptop with a touchpad and no mouse).
+**Goal:** count keystrokes in memory. (Mouse/touchpad click counts were added later, in Phase 4: same hook thread, `WH_MOUSE_LL`, counts only.)
 
 - [x] `KeyCounter` (core, unit-tested): `std::atomic<uint64_t>` count, `take()` atomically reads and resets; auto-repeat ignored by tracking key-down state
 - [x] `KeyboardHook` (Win32): dedicated thread running a `GetMessage` loop with `WH_KEYBOARD_LL`; `WM_KEYDOWN`/`WM_SYSKEYDOWN` count, `WM_KEYUP`/`WM_SYSKEYUP` release
@@ -62,7 +62,8 @@ Each phase ends with something working and demoable. Tick items off as you go.
   ```sql
   CREATE TABLE input_minute (
     minute_utc INTEGER PRIMARY KEY,   -- unix time / 60
-    keys INTEGER NOT NULL DEFAULT 0
+    keys INTEGER NOT NULL DEFAULT 0,
+    clicks INTEGER NOT NULL DEFAULT 0   -- added in Phase 4
   );
   CREATE TABLE app_minute (
     minute_utc INTEGER, app TEXT, seconds INTEGER,
@@ -86,9 +87,10 @@ Each phase ends with something working and demoable. Tick items off as you go.
 - [x] `--install`: stop any running tracker, copy exe to `%LOCALAPPDATA%\PortfolioTracker\`, write `HKCU\...\Run` (`PortfolioTracker`) entry, launch. `--uninstall`: stop it, remove the Run entry and installed exe, keep data
 - [x] Single-instance named mutex (`Local\PortfolioTracker.Instance`, covers tray and console mode)
 - [x] Hidden window to receive system messages: a hidden *top-level* window rather than message-only, because message-only windows miss broadcasts (`WM_QUERYENDSESSION`, `TaskbarCreated`). Save on `WM_QUERYENDSESSION`, stop + save on `WM_ENDSESSION`
-- [x] Tray icon: status tooltip (today's keystrokes), **Pause / Resume**, **Publish now**, **Quit**; re-added if Explorer restarts
+- [x] Tray icon: status tooltip (today's keystrokes, clicks, top apps), stats in the menu, **Pause / Resume**, **Publish now**, **Quit**; re-added if Explorer restarts
 - [x] File logger with rotation (`tracker.log`, rotated to `tracker.log.1` at 1 MB)
 - [x] Config file (`config.json`, written with defaults on first run; nlohmann/json via `FetchContent`): idle threshold, publish interval, app allowlist
+- [x] Click counting (mouse + touchpad, button presses only; injected input ignored) → `clicks` column in `input_minute`, auto-migrated on existing DBs; shown in console, tooltip and tray menu
 - [x] Shared `Session` (`session_win.*`) = hook + sampler + per-minute aggregator, used by both tray and console mode
 
 **Done when:** after one `--install`, tracking resumes automatically after every reboot.

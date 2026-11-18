@@ -1,6 +1,6 @@
 # portfolio_page
 
-A portfolio page with a twist: alongside the usual resume content, it shows **live statistics about how I use my computer** — keystrokes and time spent per application — collected by a lightweight C++ tracker running on my PC.
+A portfolio page with a twist: alongside the usual resume content, it shows **live statistics about how I use my computer** — keystrokes, mouse/touchpad clicks and time spent per application — collected by a lightweight C++ tracker running on my PC.
 
 > **Status:** 🚧 In development — see [`plan.md`](plan.md) for the roadmap.
 
@@ -16,7 +16,7 @@ A portfolio page with a twist: alongside the usual resume content, it shows **li
 │  ┌──────────────────┐   ┌──────────────────┐                      │
 │  │  Input Thread    │   │  Focus Sampler   │                      │
 │  │  WH_KEYBOARD_LL  │   │  (1 Hz)          │                      │
-│  │  (keyboard only) │   │  foreground app  │                      │
+│  │  + WH_MOUSE_LL   │   │  foreground app  │                      │
 │  │  → atomic counts │   │  + idle detect   │                      │
 │  └────────┬─────────┘   └────────┬─────────┘                      │
 │           └──────────┬───────────┘                                │
@@ -49,7 +49,7 @@ GitHub Pages only serves **static files**, so there is no server-side "backend" 
 
 | Component | Responsibility | Key APIs / libs |
 |---|---|---|
-| **Input hook** | Count keystrokes (keyboard only; no mouse/touchpad metrics). The callback only increments a `std::atomic` counter and returns immediately (Windows drops slow hooks). | `SetWindowsHookExW(WH_KEYBOARD_LL)`, dedicated message-loop thread |
+| **Input hook** | Count keystrokes and mouse/touchpad button presses (counts only: no movement, scroll or click positions). The callbacks only increment a `std::atomic` counter and return immediately (Windows drops slow hooks). | `SetWindowsHookExW(WH_KEYBOARD_LL / WH_MOUSE_LL)`, one dedicated message-loop thread |
 | **Focus sampler** | Once per second, attribute time to the foreground process. Pauses when idle > 2 min or system is asleep. | `GetForegroundWindow`, `QueryFullProcessImageNameW`, `GetLastInputInfo`, `WM_POWERBROADCAST` |
 | **Storage** | Durable per-minute buckets so a crash loses ≤ 60 s of data. | SQLite3 |
 | **Publisher** | Aggregate to daily/summary JSON, sanitise, upload. | nlohmann/json, WinHTTP / cpr, GitHub REST API |
@@ -81,7 +81,7 @@ tracker.exe --console      # debug run with a console window showing live counts
 tracker.exe --publish-now  # ask the running tracker to publish now
 ```
 
-Click the tray icon for today's stats (keystrokes: total, last hour, busiest minute, average per active minute; top 8 apps) plus **Pause / Resume**, **Publish now** and **Quit**; hover it for today's keystroke count and top 3 apps. Data, settings and logs live in `%LOCALAPPDATA%\PortfolioTracker\` (`tracker.db`, `config.json`, `tracker.log`). Edit `config.json` and restart the tracker to change the idle threshold, publish interval or app allowlist.
+Click the tray icon for today's stats (keystrokes and clicks: total, last hour, busiest minute, average per active minute; top 8 apps) plus **Pause / Resume**, **Publish now** and **Quit**; hover it for today's keystroke and click counts and top 3 apps. Data, settings and logs live in `%LOCALAPPDATA%\PortfolioTracker\` (`tracker.db`, `config.json`, `tracker.log`). Edit `config.json` and restart the tracker to change the idle threshold, publish interval or app allowlist.
 
 ## Building
 

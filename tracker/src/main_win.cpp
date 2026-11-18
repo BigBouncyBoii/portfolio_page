@@ -133,8 +133,10 @@ std::string format_apps(const std::map<std::string, std::uint64_t>& apps) {
 }
 
 void print_today(const DebugConsole& console, tracker::Session& session) {
-    console.print("Today: " + std::to_string(session.keys_today()) +
-                  " keys; apps: " + format_apps(session.apps_today()) + "\n\n");
+    console.print("Today: " + std::to_string(session.stats_today(tracker::Counter::Keys).total) +
+                  " keys, " +
+                  std::to_string(session.stats_today(tracker::Counter::Clicks).total) +
+                  " clicks; apps: " + format_apps(session.apps_today()) + "\n\n");
 }
 
 int run_console(const tracker::Config& config, tracker::Logger& log) {
@@ -156,7 +158,7 @@ int run_console(const tracker::Config& config, tracker::Logger& log) {
     log.write("running in console mode");
 
     console.print(std::string(tracker::kName) + " " + tracker::kVersion +
-                  ": counting keystrokes and foreground app time.\n"
+                  ": counting keystrokes, clicks and foreground app time.\n"
                   "Data folder: " + to_utf8(tracker::data_dir().c_str()) +
                   " (db saved once per minute; config.json, tracker.log)\n"
                   "Idle threshold: " + std::to_string(config.idle_threshold_s) + " s\n"
@@ -171,7 +173,7 @@ int run_console(const tracker::Config& config, tracker::Logger& log) {
                                              : "  !! " + session.error() + "\n"));
         }
         console.print(timestamp() + "  keys +" + std::to_string(t.keys) +
-                      "  now: " + session.state() + "  apps: " + format_apps(t.apps) + "\n");
+                      "  clicks +" + std::to_string(t.clicks) + "  now: " + session.state() + "  apps: " + format_apps(t.apps) + "\n");
     }
 
     session.stop();

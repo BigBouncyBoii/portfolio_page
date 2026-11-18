@@ -5,21 +5,24 @@
 #include <string>
 #include <thread>
 
+#include "tracker/click_counter.hpp"
 #include "tracker/key_counter.hpp"
 
 namespace tracker {
 
-// Installs a WH_KEYBOARD_LL hook on a dedicated thread that runs its own
-// message loop, forwarding key events to a KeyCounter.
+// Installs a WH_KEYBOARD_LL hook (and, if a ClickCounter is given, a
+// WH_MOUSE_LL hook) on a dedicated thread that runs its own message loop,
+// forwarding key presses to a KeyCounter and button presses to a ClickCounter.
 //
-// The hook callback does nothing but update the counter and return: Windows
+// The hook callbacks do nothing but update a counter and return: Windows
 // silently removes low-level hooks that respond slowly.
 //
 // Only one KeyboardHook may be running per process (the hook callback has no
 // user-data pointer, so the counter is reached through a global).
 class KeyboardHook {
 public:
-    explicit KeyboardHook(KeyCounter& counter) : counter_(counter) {}
+    explicit KeyboardHook(KeyCounter& counter, ClickCounter* clicks = nullptr)
+        : counter_(counter), clicks_(clicks) {}
     ~KeyboardHook() { stop(); }
 
     KeyboardHook(const KeyboardHook&) = delete;
@@ -37,6 +40,7 @@ public:
 
 private:
     KeyCounter& counter_;
+    ClickCounter* clicks_;  // optional: no mouse hook if null
     std::thread thread_;
     DWORD thread_id_ = 0;
     std::string error_;

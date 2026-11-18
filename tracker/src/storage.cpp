@@ -10,7 +10,8 @@ constexpr const char* kSchema = R"sql(
     PRAGMA synchronous = NORMAL;
     CREATE TABLE IF NOT EXISTS input_minute (
         minute_utc INTEGER PRIMARY KEY,
-        keys       INTEGER NOT NULL DEFAULT 0
+        keys       INTEGER NOT NULL DEFAULT 0,
+        clicks     INTEGER NOT NULL DEFAULT 0
     );
     CREATE TABLE IF NOT EXISTS app_minute (
         minute_utc INTEGER NOT NULL,
@@ -44,22 +45,33 @@ bool Storage::exec(const char* sql) {
 bool Storage::open(const std::string& path_utf8) {
     if (sqlite3_open(path_utf8.c_str(), &db_) != SQLITE_OK) return fail("open");
     sqlite3_busy_timeout(db_, 2000);
-    return exec(kSchema);
+    if (!exec(kSchema)) return false;
+
+    // Databases created before click counting have no `clicks` column.
+    Stmt probe;
+    if (sqlite3_prepare_v2(db_, "SELECT clicks FROM input_minute LIMIT 0", -1, &probe.s,
+                           nullptr) != SQLITE_OK) {
+        return exec("ALTER TABLE input_minute ADD COLUMN clicks INTEGER NOT NULL DEFAULT 0");
+    }
+    return true;
 }
 
-bool Storage::flush(std::int64_t minute_utc, std::uint64_t keys, const AppSeconds& apps) {
-    if (keys == 0 && apps.empty()) return true;
+bool Storage::flush(std::int64_t minute_utc, std::uint64_t keys, std::uint64_t clicks,
+                    const AppSeconds& apps) {
+    if (keys == 0 && clicks == 0 && apps.empty()) return true;
     if (!exec("BEGIN")) return false;
 
     bool ok = true;
-    if (keys > 0) {
+    if (keys > 0 || clicks > 0) {
         Stmt st;
         ok = sqlite3_prepare_v2(db_,
-                                "INSERT INTO input_minute (minute_utc, keys) VALUES (?, ?) "
-                                "ON CONFLICT(minute_utc) DO UPDATE SET keys = keys + excluded.keys",
+                                "INSERT INTO input_minute (minute_utc, keys, clicks) VALUES (?, ?, ?) "
+                                "ON CONFLICT(minute_utc) DO UPDATE SET keys = keys + excluded.keys, "
+                                "clicks = clicks + excluded.clicks",
                                 -1, &st.s, nullptr) == SQLITE_OK;
         ok = ok && sqlite3_bind_int64(st.s, 1, minute_utc) == SQLITE_OK &&
              sqlite3_bind_int64(st.s, 2, static_cast<sqlite3_int64>(keys)) == SQLITE_OK &&
+             sqlite3_bind_int64(st.s, 3, static_cast<sqlite3_int64>(clicks)) == SQLITE_OK &&
              sqlite3_step(st.s) == SQLITE_DONE;
     }
 
@@ -87,25 +99,16 @@ bool Storage::flush(std::int64_t minute_utc, std::uint64_t keys, const AppSecond
     return exec("COMMIT");
 }
 
-std::uint64_t Storage::keys_since(std::int64_t minute_utc) {
+CountStats Storage::stats_since(Counter counter, std::int64_t minute_utc) {
+    // Column names are fixed strings, never user input.
+    const char* sql = counter == Counter::Keys
+        ? "SELECT COALESCE(SUM(keys), 0), COUNT(*), COALESCE(MAX(keys), 0) "
+          "FROM input_minute WHERE minute_utc >= ? AND keys > 0"
+        : "SELECT COALESCE(SUM(clicks), 0), COUNT(*), COALESCE(MAX(clicks), 0) "
+          "FROM input_minute WHERE minute_utc >= ? AND clicks > 0";
+    CountStats out;
     Stmt st;
-    if (sqlite3_prepare_v2(db_, "SELECT COALESCE(SUM(keys), 0) FROM input_minute WHERE minute_utc >= ?",
-                           -1, &st.s, nullptr) != SQLITE_OK) {
-        fail("query");
-        return 0;
-    }
-    sqlite3_bind_int64(st.s, 1, minute_utc);
-    if (sqlite3_step(st.s) != SQLITE_ROW) return 0;
-    return static_cast<std::uint64_t>(sqlite3_column_int64(st.s, 0));
-}
-
-KeyStats Storage::key_stats_since(std::int64_t minute_utc) {
-    KeyStats out;
-    Stmt st;
-    if (sqlite3_prepare_v2(db_,
-                           "SELECT COALESCE(SUM(keys), 0), COUNT(*), COALESCE(MAX(keys), 0) "
-                           "FROM input_minute WHERE minute_utc >= ? AND keys > 0",
-                           -1, &st.s, nullptr) != SQLITE_OK) {
+    if (sqlite3_prepare_v2(db_, sql, -1, &st.s, nullptr) != SQLITE_OK) {
         fail("query");
         return out;
     }

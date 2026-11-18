@@ -1,12 +1,12 @@
 # CLAUDE.md
 
-Portfolio page + a small C++17 Windows tracker that counts keystrokes and foreground-app time, then (later phases) publishes sanitised JSON to GitHub for a static GitHub Pages site. Architecture: `README.md`. Roadmap with progress ticks: `plan.md` — read it first and tick items off as you finish them.
+Portfolio page + a small C++17 Windows tracker that counts keystrokes, mouse/touchpad clicks and foreground-app time, then (later phases) publishes sanitised JSON to GitHub for a static GitHub Pages site. Architecture: `README.md`. Roadmap with progress ticks: `plan.md` — read it first and tick items off as you finish them.
 
 ## Working style (user preference)
 - Keep it simple and token-light. This is a personal portfolio project, not production software.
 - No new unit tests, no CI, no over-engineering. Verify by building and running `tracker.exe --console`.
-- Keyboard only: the machine is a laptop with a touchpad, so collect **no mouse/touchpad metrics**.
-- Privacy: counts and exe names only. Never read key identities or window titles.
+- Input = keystroke and click **counts** only (`WH_KEYBOARD_LL` + `WH_MOUSE_LL` on one hook thread). No mouse movement, scroll, click positions or target windows.
+- Privacy: counts and exe names only. Never read key identities, click positions or window titles.
 
 ## Build (Windows native, MSVC)
 VS 18 (2026) Insiders is installed at `C:\Program Files\Microsoft Visual Studio\18\Insiders`. `cmake`/`cl` aren't on PATH in a plain shell, and `Launch-VsDevShell.ps1` / `vswhere.exe` fail in Claude's sandbox, so build through `VsDevCmd.bat`:

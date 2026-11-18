@@ -58,14 +58,16 @@ std::vector<std::pair<std::wstring, std::uint64_t>> top_apps_today(size_t limit)
     return out;
 }
 
-// Two lines: today's keystrokes, then the top apps by foreground time, e.g.
-//   tracker: 4213 keystrokes today
+// Two lines: today's keys and clicks, then the top apps by foreground time, e.g.
+//   Today: 4213 keys, 812 clicks
 //   Code 2h 10m · chrome 45m · WindowsTerminal 12m
 void update_tray(DWORD action) {
     constexpr size_t kMaxTip = std::size(NOTIFYICONDATAW{}.szTip) - 1;  // 127 chars
+    Session& session = *g_app->session;
 
-    std::wstring tip = L"tracker: " + std::to_wstring(g_app->session->keys_today()) +
-                       L" keystrokes today";
+    std::wstring tip =
+        L"Today: " + std::to_wstring(session.stats_today(Counter::Keys).total) + L" keys, " +
+        std::to_wstring(session.stats_today(Counter::Clicks).total) + L" clicks";
     if (g_app->session->paused()) tip += L" (paused)";
 
     const auto top = top_apps_today(3);
@@ -110,11 +112,24 @@ void add_info(HMENU menu, const std::wstring& text) {
     AppendMenuW(menu, MF_STRING | MF_GRAYED, 0, text.c_str());
 }
 
+// "Keystrokes today  4213" + last hour / busiest minute / avg per active minute.
+void add_counter_stats(HMENU menu, Session& session, Counter counter, const wchar_t* title) {
+    const CountStats s = session.stats_today(counter);
+    const std::uint64_t avg = s.active_minutes ? s.total / s.active_minutes : 0;
+    add_info(menu, std::wstring(title) + L"\t" + std::to_wstring(s.total));
+    add_info(menu, L"    Last hour\t" + std::to_wstring(session.last_hour(counter)));
+    add_info(menu, L"    Busiest minute\t" + std::to_wstring(s.peak_minute));
+    add_info(menu, L"    Avg per active minute\t" + std::to_wstring(avg));
+    AppendMenuW(menu, MF_SEPARATOR, 0, nullptr);
+}
+
 // Menu = today's stats (read-only) + actions:
 //   Keystrokes today        4213
 //     Last hour              512
 //     Busiest minute         143
 //     Avg per active minute   38
+//   ──────────
+//   Clicks today             812   (same breakdown)
 //   ──────────
 //   Top apps today
 //     Code                2h 10m
@@ -127,13 +142,8 @@ void show_menu(HWND hwnd) {
 
     HMENU menu = CreatePopupMenu();
 
-    const KeyStats keys = session.key_stats_today();
-    const std::uint64_t avg = keys.active_minutes ? keys.total / keys.active_minutes : 0;
-    add_info(menu, L"Keystrokes today\t" + std::to_wstring(keys.total));
-    add_info(menu, L"    Last hour\t" + std::to_wstring(session.keys_last_hour()));
-    add_info(menu, L"    Busiest minute\t" + std::to_wstring(keys.peak_minute));
-    add_info(menu, L"    Avg per active minute\t" + std::to_wstring(avg));
-    AppendMenuW(menu, MF_SEPARATOR, 0, nullptr);
+    add_counter_stats(menu, session, Counter::Keys, L"Keystrokes today");
+    add_counter_stats(menu, session, Counter::Clicks, L"Clicks today");
 
     const auto apps = top_apps_today(kMenuApps);
     add_info(menu, apps.empty() ? L"No app time yet today" : L"Top apps today");

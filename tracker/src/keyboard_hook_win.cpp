@@ -8,6 +8,7 @@ namespace tracker {
 namespace {
 
 std::atomic<KeyCounter*> g_counter{nullptr};
+std::atomic<ClickCounter*> g_clicks{nullptr};
 
 LRESULT CALLBACK keyboard_proc(int code, WPARAM wparam, LPARAM lparam) {
     if (code == HC_ACTION) {
@@ -32,6 +33,17 @@ LRESULT CALLBACK keyboard_proc(int code, WPARAM wparam, LPARAM lparam) {
     return CallNextHookEx(nullptr, code, wparam, lparam);
 }
 
+// Called for every mouse event, including movement, so it must stay trivial.
+LRESULT CALLBACK mouse_proc(int code, WPARAM wparam, LPARAM lparam) {
+    if (code == HC_ACTION && (wparam == WM_LBUTTONDOWN || wparam == WM_RBUTTONDOWN ||
+                              wparam == WM_MBUTTONDOWN || wparam == WM_XBUTTONDOWN)) {
+        const auto* info = reinterpret_cast<const MSLLHOOKSTRUCT*>(lparam);
+        ClickCounter* clicks = g_clicks.load(std::memory_order_relaxed);
+        if (clicks != nullptr && (info->flags & LLMHF_INJECTED) == 0) clicks->on_click();
+    }
+    return CallNextHookEx(nullptr, code, wparam, lparam);
+}
+
 }  // namespace
 
 bool KeyboardHook::start() {
@@ -42,6 +54,7 @@ bool KeyboardHook::start() {
         error_ = "another KeyboardHook is already running in this process";
         return false;
     }
+    g_clicks.store(clicks_);
 
     // The thread reports its id once the hook is installed, or 0 on failure.
     std::promise<DWORD> ready;
@@ -60,6 +73,19 @@ bool KeyboardHook::start() {
             ready.set_value(0);
             return;
         }
+
+        HHOOK mouse_hook = nullptr;
+        if (clicks_ != nullptr) {
+            mouse_hook =
+                SetWindowsHookExW(WH_MOUSE_LL, mouse_proc, GetModuleHandleW(nullptr), 0);
+            if (mouse_hook == nullptr) {
+                error_ = "SetWindowsHookExW(WH_MOUSE_LL) failed (error " +
+                         std::to_string(GetLastError()) + ")";
+                UnhookWindowsHookEx(hook);
+                ready.set_value(0);
+                return;
+            }
+        }
         ready.set_value(GetCurrentThreadId());
 
         // Low-level hooks are called on this thread while it pumps messages.
@@ -67,12 +93,14 @@ bool KeyboardHook::start() {
             DispatchMessageW(&msg);
         }
 
+        if (mouse_hook != nullptr) UnhookWindowsHookEx(mouse_hook);
         UnhookWindowsHookEx(hook);
     });
 
     thread_id_ = ready_future.get();
     if (thread_id_ == 0) {
         thread_.join();
+        g_clicks.store(nullptr);
         g_counter.store(nullptr);
         return false;
     }
@@ -84,6 +112,7 @@ void KeyboardHook::stop() {
     PostThreadMessageW(thread_id_, WM_QUIT, 0, 0);
     thread_.join();
     thread_id_ = 0;
+    g_clicks.store(nullptr);
     g_counter.store(nullptr);
 }
 

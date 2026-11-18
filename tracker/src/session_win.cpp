@@ -12,7 +12,7 @@ bool Session::start(const std::string& db_path_utf8) {
         return false;
     }
     if (!hook_.start()) {
-        error_ = "could not install keyboard hook: " + hook_.error();
+        error_ = "could not install input hooks: " + hook_.error();
         return false;
     }
     sampler_.start();
@@ -23,11 +23,13 @@ bool Session::start(const std::string& db_path_utf8) {
 
 Session::Tick Session::collect() {
     Tick t;
-    t.keys = counter_.take();
+    t.keys = keys_.take();
+    t.clicks = clicks_.take();
     t.apps = sampler_.take();
     if (paused_) return Tick{};
 
     bucket_keys_ += t.keys;
+    bucket_clicks_ += t.clicks;
     for (const auto& [app, secs] : t.apps) bucket_apps_[app] += secs;
     return t;
 }
@@ -47,9 +49,10 @@ Session::Tick Session::tick() {
 
 bool Session::save() {
     error_.clear();
-    const bool ok = storage_.flush(bucket_minute_, bucket_keys_, bucket_apps_);
+    const bool ok = storage_.flush(bucket_minute_, bucket_keys_, bucket_clicks_, bucket_apps_);
     if (!ok) error_ = "save failed: " + storage_.error();
     bucket_keys_ = 0;
+    bucket_clicks_ = 0;
     bucket_apps_.clear();
     return ok;
 }
@@ -63,22 +66,19 @@ void Session::stop() {
     save();
 }
 
-std::uint64_t Session::keys_today() {
-    return storage_.keys_since(local_midnight_minute_utc()) + bucket_keys_;
-}
-
-std::uint64_t Session::keys_last_hour() {
-    return storage_.keys_since(now_minute_utc() - 60) + bucket_keys_;
-}
-
-KeyStats Session::key_stats_today() {
-    KeyStats s = storage_.key_stats_since(local_midnight_minute_utc());
-    if (bucket_keys_ > 0) {
-        s.total += bucket_keys_;
+CountStats Session::stats_today(Counter counter) {
+    CountStats s = storage_.stats_since(counter, local_midnight_minute_utc());
+    const std::uint64_t pending = unsaved(counter);
+    if (pending > 0) {
+        s.total += pending;
         s.active_minutes += 1;
-        s.peak_minute = std::max(s.peak_minute, bucket_keys_);
+        s.peak_minute = std::max(s.peak_minute, pending);
     }
     return s;
+}
+
+std::uint64_t Session::last_hour(Counter counter) {
+    return storage_.stats_since(counter, now_minute_utc() - 60).total + unsaved(counter);
 }
 
 AppSeconds Session::apps_today() {
