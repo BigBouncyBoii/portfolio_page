@@ -4,7 +4,12 @@
 
 #include <shellapi.h>
 
+#include <algorithm>
+#include <cstdint>
+#include <iterator>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "lifecycle_win.hpp"
 #include "session_win.hpp"
@@ -27,10 +32,41 @@ struct App {
 };
 App* g_app = nullptr;  // the window procedure has no user-data pointer of its own
 
+// "2h 10m", "45m", "<1m"
+std::wstring format_duration(std::uint64_t secs) {
+    const std::uint64_t mins = secs / 60;
+    if (mins == 0) return L"<1m";
+    if (mins < 60) return std::to_wstring(mins) + L"m";
+    return std::to_wstring(mins / 60) + L"h " + std::to_wstring(mins % 60) + L"m";
+}
+
+// Two lines: today's keystrokes, then the top apps by foreground time, e.g.
+//   tracker: 4213 keystrokes today
+//   Code 2h 10m · chrome 45m · WindowsTerminal 12m
 void update_tray(DWORD action) {
+    constexpr size_t kTopApps = 3;
+    constexpr size_t kMaxTip = std::size(NOTIFYICONDATAW{}.szTip) - 1;  // 127 chars
+
     std::wstring tip = L"tracker: " + std::to_wstring(g_app->session->keys_today()) +
                        L" keystrokes today";
     if (g_app->session->paused()) tip += L" (paused)";
+
+    const AppSeconds apps = g_app->session->apps_today();
+    std::vector<std::pair<std::string, std::uint64_t>> top(apps.begin(), apps.end());
+    std::sort(top.begin(), top.end(),
+              [](const auto& a, const auto& b) { return a.second > b.second; });
+
+    for (size_t i = 0; i < top.size() && i < kTopApps; ++i) {
+        std::wstring name = to_wide(top[i].first);
+        if (name.size() > 4 && _wcsicmp(name.c_str() + name.size() - 4, L".exe") == 0) {
+            name.resize(name.size() - 4);
+        }
+        const std::wstring entry =
+            (i == 0 ? L"\n" : L" · ") + name + L" " + format_duration(top[i].second);
+        if (tip.size() + entry.size() > kMaxTip) break;  // keep whole entries only
+        tip += entry;
+    }
+
     wcsncpy_s(g_app->icon.szTip, tip.c_str(), _TRUNCATE);
     Shell_NotifyIconW(action, &g_app->icon);
 }
