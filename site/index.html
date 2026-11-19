@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>James Loke</title>
+<meta name="description" content="James Loke: Computer Science @ UCL. Systems, performance and ML inference.">
+</head>
+<body>
+
+<header>
+<h1>James Loke</h1>
+<p><strong>Computer Science @ UCL. Systems, performance and ML inference.</strong></p>
+<p>Third-year Computer Science student at UCL (predicted First; 85% in Year 1, 80% in Year 2). I like systems and performance work: async runtimes, data pipelines, HPC benchmarking and real-time ML inference on edge hardware. Previously a Quantitative Technology Intern at Qube Research &amp; Technologies and a Software Engineering Intern at Grab.</p>
+<p>London, UK &middot;
+<a href="https://github.com/BigBouncyBoii">GitHub</a> &middot;
+<a href="https://www.linkedin.com/in/james-loke-34a0612bb/">LinkedIn</a> &middot;
+<a href="james-loke-resume-2-11-26.pdf">Resume (PDF)</a></p>
+<nav>
+<a href="#live-stats">Live stats</a> &middot;
+<a href="#experience">Experience</a> &middot;
+<a href="#projects">Projects</a> &middot;
+<a href="#education">Education</a> &middot;
+<a href="#skills">Skills</a> &middot;
+<a href="#awards">Awards</a>
+</nav>
+</header>
+
+<hr>
+
+<main>
+
+<section id="live-stats">
+<h2>Live stats</h2>
+<p>What my laptop has been up to, published automatically by a small C++ tracker I wrote. Counts only: no key identities, click positions or window titles.</p>
+<p id="stats-status">Loading&hellip;</p>
+<div id="stats" hidden>
+<table>
+<thead><tr><th></th><th>Keystrokes</th><th>Clicks</th><th>Active minutes</th><th>App time</th></tr></thead>
+<tbody id="stats-totals"></tbody>
+</table>
+
+<h3>Today, per hour</h3>
+<canvas id="chart-hours" width="720" height="260"></canvas>
+
+<h3>Top apps today</h3>
+<canvas id="chart-apps" width="720" height="260"></canvas>
+
+<h3>Last 30 days</h3>
+<canvas id="chart-trend" width="720" height="260"></canvas>
+</div>
+
+<details>
+<summary>How this works</summary>
+<p>A C++17 Windows tray app counts keystrokes and mouse/touchpad clicks with low-level hooks and samples the foreground app once a second, skipping idle and locked time. It stores per-minute counts in SQLite, and every 30 minutes publishes sanitised JSON (allow-listed app names, everything else is "Other") to the <code>data</code> branch of this site's repo via the GitHub API. This page is static and just reads that JSON. Source and architecture: <a href="https://github.com/BigBouncyBoii/portfolio_page">BigBouncyBoii/portfolio_page</a>.</p>
+</details>
+</section>
+
+<hr>
+
+<section id="experience">
+<h2>Experience</h2>
+
+<h3>Quantitative Technology Intern (SWE), Qube Research &amp; Technologies</h3>
+<p><em>London &middot; 06/2026 &ndash; 09/2026</em></p>
+<ul>
+<li>Re-architected an AI research pipeline into an asynchronous multi-agent runtime using Pydantic AI, with durable execution, deterministic replay, fault recovery, parallel agent execution, planning, and browser/internal tool integration.</li>
+<li>Made a 100M-record data pipeline <strong>12&times; faster</strong> by pushing Pandas transformations down into SQL, streaming psycopg2 queries to disk, compressing with gzip across multiple processes, and using finer-grained threading.</li>
+<li>Built a scalable reconciliation pipeline for <strong>1B+ records/day</strong> across multiple regions, using multiprocessing and DuckDB to detect row-level data discrepancies.</li>
+</ul>
+
+<h3>HPC team member, CIUK Cluster Challenge, University College London</h3>
+<p><em>London &middot; 10/2026 &ndash; Present</em></p>
+<ul>
+<li>Ran and scaled the HPL and HPCG benchmarks on an HPC cluster with Linux and Slurm batch scripts, setting up job scheduling, MPI parallelism and resource allocation across a supercomputer.</li>
+<li>Benchmarked HPL dense matrix operations and HPCG sparse conjugate-gradient workloads, measuring performance, scalability and energy efficiency on 1&ndash;4 nodes.</li>
+</ul>
+
+<h3>Software Engineering Contractor, UCL IXN (IBM &times; Tech To The Rescue &times; Dignitas)</h3>
+<p><em>London &middot; 10/2025 &ndash; 03/2026</em></p>
+<ul>
+<li>Built a RAG-powered AI agent with LangGraph and LangChain, backed by Qdrant and Redis, plus an MCP server hosting WhatsApp, translation and SQL tools.</li>
+<li>Fine-tuned Meta NLLB with LoRA on a 200K-sample English&ndash;Swahili dataset, converted it to ONNX and applied INT8 quantisation with ONNX Runtime, cutting model-weight memory by about <strong>65%</strong> and making CPU inference possible.</li>
+<li>Designed and deployed a multi-service architecture with Docker on Azure Container Apps: 4 containers with CI/CD pipelines.</li>
+</ul>
+
+<h3>Software Engineering Intern, Grab</h3>
+<p><em>Petaling Jaya, Malaysia &middot; 07/2025 &ndash; 09/2025</em></p>
+<ul>
+<li>Extended Go backend services for large-scale configuration changes, using gRPC to communicate across 10+ microservices. Cut one API's latency by <strong>30%</strong> with lazy loading, caching and concurrent processing.</li>
+<li>Built UI with React and Tailwind CSS for large-scale analytics tools and an interactive map that replays taxi journeys. Wrote unit and integration tests with Jest and Enzyme.</li>
+<li>Instrumented 3 core web services with Datadog RUM to monitor performance and crashes.</li>
+</ul>
+
+<h3>Programmes</h3>
+<p>Palantir Spring Week, Barclays Spring Week, Amazon Web Services Insight Day, YC Startup School (04/2025 &ndash; 08/2026)</p>
+</section>
+
+<hr>
+
+<section id="projects">
+<h2>Projects</h2>
+
+<h3>Deterministic Real-Time Scheduling of Vision-Language-Action Models for Edge Robotic Manipulation</h3>
+<p><em>Dissertation &middot; 09/2026 &ndash; Present</em></p>
+<ul>
+<li>Designing an event-driven, asynchronous dual-stream VLA architecture for resource-constrained edge hardware, separating the vision-language perception backbone from the time-critical action head.</li>
+<li>Optimising GPU execution with CUDA Streams and TensorRT, using attention maps and pixel-level changes to decide when to re-run perception and avoid redundant inference.</li>
+<li>Building a C++ benchmarking framework comparing synchronous and asynchronous inference on end-to-end latency, control-frequency stability, GPU utilisation, energy use and task success.</li>
+</ul>
+
+<h3><a href="https://github.com/BigBouncyBoii/portfolio_page">Portfolio activity tracker</a> (C++17, Win32, SQLite)</h3>
+<p>The tracker behind the <a href="#live-stats">live stats</a> above: low-level keyboard/mouse hooks (counts only), 1 Hz foreground-app sampling with idle/lock detection, SQLite per-minute buckets, a tray app, and scheduled publishing of sanitised JSON to GitHub.</p>
+
+<h3>More</h3>
+<ul>
+<li><a href="https://github.com/BigBouncyBoii/async_python_scratch">async_python_scratch</a> (Python): an asyncio-style event loop written from scratch (tasks, futures, step scheduling) to learn how async works under the hood.</li>
+<li><a href="https://github.com/BigBouncyBoii/Rust_P2P_job_scheduler">Rust_P2P_job_scheduler</a> (Rust): simulated decentralised peer-to-peer job scheduler for AI workloads on GPU/CPU clusters, with no single-point-of-failure central scheduler.</li>
+<li><a href="https://github.com/BigBouncyBoii/cf_ai_james_loke">Event Planner Assistant</a> (TypeScript): a conversational agent on Cloudflare Workers AI with web search and Slack integration. <a href="https://event-planner.jameslokejw.workers.dev">Live demo</a>.</li>
+<li><a href="https://github.com/BigBouncyBoii/tetris-AI">tetris-AI</a>: AI that plays Tetris, with genetic-algorithm, lookahead and hill-climbing variants.</li>
+<li><a href="https://github.com/BigBouncyBoii/redis_go">redis_go</a> (Go): a Redis-style server in Go.</li>
+<li><a href="https://github.com/BigBouncyBoii/Machine-learning-for-robotics-cw1">Machine-learning-for-robotics-cw1</a> (Python): fruit localisation with from-scratch image processing and a NumPy neural network (SGD vs ADAM).</li>
+<li><a href="https://github.com/BigBouncyBoii/Jetbrains-code-DNA">Jetbrains-code-DNA</a> (Java): CLI that analyses JetBrains plugin artifacts into JSON reports, with optional HMAC-SHA256 per entry and similarity comparison.</li>
+</ul>
+<p>Everything else: <a href="https://github.com/BigBouncyBoii?tab=repositories">github.com/BigBouncyBoii</a></p>
+</section>
+
+<hr>
+
+<section id="education">
+<h2>Education</h2>
+
+<h3>BSc Computer Science, University College London</h3>
+<p><em>London, UK &middot; 2024 &ndash; 2027</em></p>
+<ul>
+<li>Predicted First Class Honours; Year 1: 85%, Year 2: 80%</li>
+<li>Relevant modules: Computer Architecture &amp; Concurrency, Systems Engineering, Machine Learning for Visual Computing, Machine Learning for Robotics, Algorithms, OOP</li>
+</ul>
+
+<h3>A-Level &amp; IGCSE, Sunway College / SriKDU International School</h3>
+<p><em>Petaling Jaya, Malaysia &middot; 2017 &ndash; 2024</em></p>
+<ul>
+<li>A-Level: 4A* (average 96%)</li>
+<li>IGCSE: 11A* (average 96%)</li>
+</ul>
+</section>
+
+<hr>
+
+<section id="skills">
+<h2>Skills</h2>
+<dl>
+<dt><strong>Languages</strong></dt>
+<dd>C++, Python, Go, Java, SQL, JavaScript/TypeScript, Rust, C</dd>
+<dt><strong>Systems &amp; performance</strong></dt>
+<dd>Concurrency, distributed systems, networking, Linux, performance optimisation, benchmarking, Slurm, HPC</dd>
+<dt><strong>ML &amp; inference</strong></dt>
+<dd>PyTorch, ONNX Runtime, model quantisation, CUDA, TensorRT, Pydantic AI, LangGraph, LangChain</dd>
+<dt><strong>Infrastructure &amp; backend</strong></dt>
+<dd>AWS, Azure, Docker, FastAPI, gRPC, CI/CD, Git, Terraform, Prometheus/Grafana, Redis</dd>
+</dl>
+</section>
+
+<hr>
+
+<section id="awards">
+<h2>Awards</h2>
+<ul>
+<li><strong>Finalist</strong>, Palantir Winter Tech Fellowship</li>
+<li><strong>Top 10</strong>, Imperial &times; UCL Entrepreneurs First Hackathon</li>
+<li>Jeffrey Cheah Entrance Scholarship (100% tuition waiver)</li>
+<li>Distinction, University of Waterloo Euclid (CEMC) Contest</li>
+<li>Distinction, Xiamen University Chen Jingrun Cup (75% scholarship award)</li>
+<li>Bronze, Senior Kangaroo Math</li>
+</ul>
+
+<h2>Certificates</h2>
+<ul>
+<li>Harvard CS50, CS50W (Web Programming), CS50AI (Introduction to Artificial Intelligence)</li>
+<li>FreeCodeCamp: Learn CUDA Programming</li>
+<li>NVIDIA: Introduction to Networking</li>
+<li>Coursera: Unix System Basics</li>
+<li>Palantir Foundry Foundations</li>
+<li>learncpp.com</li>
+<li>IELTS 8.5</li>
+</ul>
+</section>
+
+</main>
+
+<hr>
+<footer>
+<p><small>Plain HTML, no CSS. Built by James Loke &middot; <a href="https://github.com/BigBouncyBoii/portfolio_page">source</a></small></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+<script src="stats.js"></script>
+</body>
+</html>

@@ -97,11 +97,11 @@ Each phase ends with something working and demoable. Tick items off as you go.
 
 ---
 
-## Phase 5 — Publishing ✅ (code done; needs one-time setup below)
+## Phase 5 — Publishing ✅
 
 **Goal:** sanitised stats appear in the GitHub repo automatically.
 
-- [ ] Create `data` orphan branch (one-time, see README "Publishing"; target set by `publish_repo` / `publish_branch` in `config.json`)
+- [x] Create `data` orphan branch (one-time, see README "Publishing"; target set by `publish_repo` / `publish_branch` in `config.json`)
 - [x] Fine-grained PAT (that repo only, `contents: write`) stored in Windows Credential Manager (`CredWriteW`, `PortfolioTracker/GitHubToken`), set via `--set-token` (re-read on every publish, no restart needed)
 - [x] JSON builders (`publish_json.cpp`, core):
   - `stats/YYYY-MM-DD.json`: day totals, 24 hourly buckets, apps (today + yesterday are published)
@@ -121,12 +121,12 @@ Each phase ends with something working and demoable. Tick items off as you go.
 **Content source:** [`docs/portfolio_content.md`](docs/portfolio_content.md) holds everything extracted from the resume ([`james-loke-resume-2-11-26.pdf`](james-loke-resume-2-11-26.pdf)), [GitHub](https://github.com/BigBouncyBoii) and [LinkedIn](https://www.linkedin.com/in/james-loke-34a0612bb/). Build the page from it. Go back to the resume/GitHub/LinkedIn only for anything missing, and update that file first.
 
 - [x] Extract resume + GitHub content into `docs/portfolio_content.md` (LinkedIn blocks automated fetches; merge in a "Save to PDF" export later)
-- [ ] `site/index.html`: name, short bio, links (GitHub, LinkedIn, resume PDF), education, experience, featured projects, skills, awards/certificates (all from `docs/portfolio_content.md`)
-- [ ] Copy the resume PDF into `site/` so the page can link it; keep the phone number off the page
-- [ ] "Live stats" section fetching `summary.json` from `raw.githubusercontent.com`
-- [ ] Charts (Chart.js): keystrokes per hour today, top apps (bar), 30-day trend (line)
-- [ ] "Last updated X min ago" indicator; graceful fallback if fetch fails
-- [ ] Short "How this works" blurb linking to the repo/architecture
+- [x] `site/index.html`: name, short bio, links (GitHub, LinkedIn, resume PDF), education, experience, featured projects, skills, awards/certificates (all from `docs/portfolio_content.md`)
+- [x] Copy the resume PDF into `site/` so the page can link it; keep the phone number off the page
+- [x] "Live stats" section fetching `summary.json` from `raw.githubusercontent.com`
+- [x] Charts (Chart.js, `site/stats.js`): keystrokes per hour today, top apps (bar), 30-day trend (line)
+- [x] "Last updated X min ago" indicator; graceful fallback if fetch fails
+- [x] Short "How this works" blurb linking to the repo/architecture
 - [ ] Enable GitHub Pages from `main` → `/site`
 
 **Done when:** the public URL shows real data from today.
