@@ -12,13 +12,44 @@ namespace fs = std::filesystem;
 Config default_config() {
     Config c;
     c.app_allowlist = {
+        // Dev / productivity
         {"Code.exe", "VS Code"},
         {"devenv.exe", "Visual Studio"},
         {"WindowsTerminal.exe", "Terminal"},
+        {"Obsidian.exe", "Obsidian"},
+        // Browsers
         {"chrome.exe", "Chrome"},
         {"msedge.exe", "Edge"},
         {"firefox.exe", "Firefox"},
+        // Microsoft / Windows
         {"explorer.exe", "File Explorer"},
+        {"WINWORD.EXE", "Word"},
+        {"EXCEL.EXE", "Excel"},
+        {"POWERPNT.EXE", "PowerPoint"},
+        {"OUTLOOK.EXE", "Outlook"},
+        {"olk.exe", "Outlook"},
+        {"ONENOTE.EXE", "OneNote"},
+        {"ms-teams.exe", "Teams"},
+        {"Teams.exe", "Teams"},
+        {"Notepad.exe", "Notepad"},
+        {"mspaint.exe", "Paint"},
+        {"SnippingTool.exe", "Snipping Tool"},
+        {"Taskmgr.exe", "Task Manager"},
+        {"SystemSettings.exe", "Settings"},
+        // Games
+        {"VALORANT-Win64-Shipping.exe", "Valorant"},
+        {"cs2.exe", "Counter-Strike 2"},
+        {"csgo.exe", "CS:GO"},
+        {"League of Legends.exe", "League of Legends"},
+        {"FortniteClient-Win64-Shipping.exe", "Fortnite"},
+        {"r5apex.exe", "Apex Legends"},
+        {"r5apex_dx12.exe", "Apex Legends"},
+        {"Overwatch.exe", "Overwatch 2"},
+        {"dota2.exe", "Dota 2"},
+        {"RocketLeague.exe", "Rocket League"},
+        {"Minecraft.Windows.exe", "Minecraft"},
+        {"GTA5.exe", "GTA V"},
+        {"steam.exe", "Steam"},
     };
     return c;
 }
