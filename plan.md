@@ -97,18 +97,18 @@ Each phase ends with something working and demoable. Tick items off as you go.
 
 ---
 
-## Phase 5 — Publishing
+## Phase 5 — Publishing ✅ (code done; needs one-time setup below)
 
 **Goal:** sanitised stats appear in the GitHub repo automatically.
 
-- [ ] Create `data` branch (orphan) or separate `portfolio-data` repo
-- [ ] Fine-grained PAT: that repo only, `contents: write`; store in Windows Credential Manager (`CredWriteW`), set via `--set-token`
-- [ ] JSON builders:
-  - `stats/YYYY-MM-DD.json` — hourly breakdown for one day
-  - `stats/summary.json` — today, last 7/30 days totals, top apps, all-time totals
-- [ ] Sanitiser: app allowlist → friendly names, rest → `"Other"`; no titles, no raw events
-- [ ] HTTPS client (WinHTTP or cpr): `GET` file SHA → `PUT /repos/{owner}/{repo}/contents/{path}`
-- [ ] Publish every 15–30 min; skip if nothing changed; exponential backoff on network failure
+- [ ] Create `data` orphan branch (one-time, see README "Publishing"; target set by `publish_repo` / `publish_branch` in `config.json`)
+- [x] Fine-grained PAT (that repo only, `contents: write`) stored in Windows Credential Manager (`CredWriteW`, `PortfolioTracker/GitHubToken`), set via `--set-token` (re-read on every publish, no restart needed)
+- [x] JSON builders (`publish_json.cpp`, core):
+  - `stats/YYYY-MM-DD.json`: day totals, 24 hourly buckets, apps (today + yesterday are published)
+  - `stats/summary.json`: today (with hours), last 7/30 days, all time, 30-day daily series, `generated_at`
+- [x] Sanitiser: app allowlist (case-insensitive) → friendly names, rest → `"Other"`, top 10; no titles, no raw events. Local copies in `%LOCALAPPDATA%\PortfolioTracker\publish\`
+- [x] HTTPS client (WinHTTP, `publisher_win.cpp`) on a worker thread: `GET` file SHA → `PUT /repos/{owner}/{repo}/contents/{path}`
+- [x] Publish every `publish_interval_min` (30) + on start + tray/`--publish-now`; skip if day files unchanged; exponential backoff (1, 2, 4… min, capped at the interval) on failure. Console mode prints `[publish]` status
 
 **Done when:** `summary.json` on GitHub updates on its own throughout the day.
 

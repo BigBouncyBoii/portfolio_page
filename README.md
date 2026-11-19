@@ -79,9 +79,21 @@ tracker.exe --uninstall    # stop it and remove auto-start (data is kept)
 tracker.exe                # background run with tray icon (invoked automatically at login)
 tracker.exe --console      # debug run with a console window showing live counts
 tracker.exe --publish-now  # ask the running tracker to publish now
+tracker.exe --set-token T  # save the GitHub token to Credential Manager ("" removes it)
 ```
 
-Click the tray icon for today's stats (keystrokes and clicks: total, last hour, busiest minute, average per active minute; top 8 apps) plus **Pause / Resume**, **Publish now** and **Quit**; hover it for today's keystroke and click counts and top 3 apps. Data, settings and logs live in `%LOCALAPPDATA%\PortfolioTracker\` (`tracker.db`, `config.json`, `tracker.log`). Edit `config.json` and restart the tracker to change the idle threshold, publish interval or app allowlist.
+Click the tray icon for today's stats (keystrokes and clicks: total, last hour, busiest minute, average per active minute; top 8 apps) plus **Pause / Resume**, **Publish now** and **Quit**; hover it for today's keystroke and click counts and top 3 apps. Data, settings and logs live in `%LOCALAPPDATA%\PortfolioTracker\` (`tracker.db`, `config.json`, `tracker.log`). Edit `config.json` and restart the tracker to change the idle threshold, publish interval, app allowlist or publish target (`publish_repo`, `publish_branch`).
+
+### Publishing
+
+Every `publish_interval_min` (default 30), the tracker builds `stats/YYYY-MM-DD.json` (today and yesterday: totals, 24 hourly buckets, apps) and `stats/summary.json` (today, last 7/30 days, all time, 30-day daily series). It uploads them via the GitHub Contents API to the `data` branch, skipping the upload when nothing has changed. If a request fails, it retries after 1, 2, 4… minutes, up to the publish interval. Apps not in the allowlist are published as `"Other"`. A copy of each file is also written to `%LOCALAPPDATA%\PortfolioTracker\publish\`.
+
+One-time setup:
+
+```powershell
+git switch --orphan data; git commit --allow-empty -m "data branch"; git push -u origin data; git switch main
+tracker.exe --set-token github_pat_...   # fine-grained PAT: this repo only, Contents: read & write
+```
 
 ## Building
 
