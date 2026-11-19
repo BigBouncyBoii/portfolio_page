@@ -1,15 +1,15 @@
 {
   "all_time": {
-    "active_minutes": 307,
-    "app_seconds": 36583,
+    "active_minutes": 318,
+    "app_seconds": 37840,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 19973
+        "seconds": 20344
       },
       {
         "name": "Chrome",
-        "seconds": 14552
+        "seconds": 15426
       },
       {
         "name": "Obsidian",
@@ -17,11 +17,11 @@
       },
       {
         "name": "File Explorer",
-        "seconds": 638
+        "seconds": 643
       },
       {
         "name": "Other",
-        "seconds": 275
+        "seconds": 282
       },
       {
         "name": "Snipping Tool",
@@ -36,8 +36,8 @@
         "seconds": 16
       }
     ],
-    "clicks": 178,
-    "keys": 24432
+    "clicks": 280,
+    "keys": 24635
   },
   "daily": [
     {
@@ -244,25 +244,25 @@
       "keys": 11954
     },
     {
-      "active_minutes": 170,
-      "app_seconds": 17266,
-      "clicks": 178,
+      "active_minutes": 181,
+      "app_seconds": 18523,
+      "clicks": 280,
       "date": "2026-11-19",
-      "keys": 12420
+      "keys": 12623
     }
   ],
-  "generated_at": "2026-11-19T15:52:37Z",
+  "generated_at": "2026-11-19T16:22:41Z",
   "last_30_days": {
-    "active_minutes": 307,
-    "app_seconds": 36583,
+    "active_minutes": 318,
+    "app_seconds": 37840,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 19973
+        "seconds": 20344
       },
       {
         "name": "Chrome",
-        "seconds": 14552
+        "seconds": 15426
       },
       {
         "name": "Obsidian",
@@ -270,11 +270,11 @@
       },
       {
         "name": "File Explorer",
-        "seconds": 638
+        "seconds": 643
       },
       {
         "name": "Other",
-        "seconds": 275
+        "seconds": 282
       },
       {
         "name": "Snipping Tool",
@@ -289,20 +289,20 @@
         "seconds": 16
       }
     ],
-    "clicks": 178,
-    "keys": 24432
+    "clicks": 280,
+    "keys": 24635
   },
   "last_7_days": {
-    "active_minutes": 307,
-    "app_seconds": 36583,
+    "active_minutes": 318,
+    "app_seconds": 37840,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 19973
+        "seconds": 20344
       },
       {
         "name": "Chrome",
-        "seconds": 14552
+        "seconds": 15426
       },
       {
         "name": "Obsidian",
@@ -310,11 +310,11 @@
       },
       {
         "name": "File Explorer",
-        "seconds": 638
+        "seconds": 643
       },
       {
         "name": "Other",
-        "seconds": 275
+        "seconds": 282
       },
       {
         "name": "Snipping Tool",
@@ -329,20 +329,20 @@
         "seconds": 16
       }
     ],
-    "clicks": 178,
-    "keys": 24432
+    "clicks": 280,
+    "keys": 24635
   },
   "today": {
-    "active_minutes": 170,
-    "app_seconds": 17266,
+    "active_minutes": 181,
+    "app_seconds": 18523,
     "apps": [
       {
         "name": "Chrome",
-        "seconds": 8391
+        "seconds": 9265
       },
       {
         "name": "VS Code",
-        "seconds": 7466
+        "seconds": 7837
       },
       {
         "name": "Obsidian",
@@ -350,7 +350,7 @@
       },
       {
         "name": "File Explorer",
-        "seconds": 181
+        "seconds": 186
       },
       {
         "name": "Snipping Tool",
@@ -358,7 +358,7 @@
       },
       {
         "name": "Other",
-        "seconds": 83
+        "seconds": 90
       },
       {
         "name": "Terminal",
@@ -369,7 +369,7 @@
         "seconds": 16
       }
     ],
-    "clicks": 178,
+    "clicks": 280,
     "date": "2026-11-19",
     "hours": [
       {
@@ -448,14 +448,14 @@
         "keys": 0
       },
       {
-        "clicks": 178,
+        "clicks": 230,
         "hour": 15,
-        "keys": 1878
+        "keys": 2014
       },
       {
-        "clicks": 0,
+        "clicks": 50,
         "hour": 16,
-        "keys": 0
+        "keys": 67
       },
       {
         "clicks": 0,
@@ -493,6 +493,6 @@
         "keys": 0
       }
     ],
-    "keys": 12420
+    "keys": 12623
   }
 }
