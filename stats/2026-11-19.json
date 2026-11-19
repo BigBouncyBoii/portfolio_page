@@ -1,0 +1,163 @@
+{
+  "active_minutes": 170,
+  "app_seconds": 17266,
+  "apps": [
+    {
+      "name": "Chrome",
+      "seconds": 8391
+    },
+    {
+      "name": "VS Code",
+      "seconds": 7466
+    },
+    {
+      "name": "Obsidian",
+      "seconds": 1003
+    },
+    {
+      "name": "File Explorer",
+      "seconds": 181
+    },
+    {
+      "name": "Snipping Tool",
+      "seconds": 109
+    },
+    {
+      "name": "Other",
+      "seconds": 83
+    },
+    {
+      "name": "Terminal",
+      "seconds": 17
+    },
+    {
+      "name": "Notepad",
+      "seconds": 16
+    }
+  ],
+  "clicks": 178,
+  "date": "2026-11-19",
+  "hours": [
+    {
+      "clicks": 0,
+      "hour": 0,
+      "keys": 894
+    },
+    {
+      "clicks": 0,
+      "hour": 1,
+      "keys": 2433
+    },
+    {
+      "clicks": 0,
+      "hour": 2,
+      "keys": 2206
+    },
+    {
+      "clicks": 0,
+      "hour": 3,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 4,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 5,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 6,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 7,
+      "keys": 2
+    },
+    {
+      "clicks": 0,
+      "hour": 8,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 9,
+      "keys": 816
+    },
+    {
+      "clicks": 0,
+      "hour": 10,
+      "keys": 1447
+    },
+    {
+      "clicks": 0,
+      "hour": 11,
+      "keys": 86
+    },
+    {
+      "clicks": 0,
+      "hour": 12,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 13,
+      "keys": 2658
+    },
+    {
+      "clicks": 0,
+      "hour": 14,
+      "keys": 0
+    },
+    {
+      "clicks": 178,
+      "hour": 15,
+      "keys": 1878
+    },
+    {
+      "clicks": 0,
+      "hour": 16,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 17,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 18,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 19,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 20,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 21,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 22,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 23,
+      "keys": 0
+    }
+  ],
+  "keys": 12420
+}
