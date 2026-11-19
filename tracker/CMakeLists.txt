@@ -18,7 +18,7 @@ add_library(sqlite3 STATIC ${sqlite3_SOURCE_DIR}/sqlite3.c)
 target_include_directories(sqlite3 PUBLIC ${sqlite3_SOURCE_DIR})
 target_compile_definitions(sqlite3 PRIVATE SQLITE_OMIT_LOAD_EXTENSION SQLITE_DQS=0)
 
-# nlohmann/json: header-only, for config.json (and published JSON in Phase 5).
+# nlohmann/json: header-only, for config.json and the published JSON.
 FetchContent_Declare(json
     URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
@@ -29,6 +29,7 @@ add_library(tracker_core STATIC
     src/config.cpp
     src/key_counter.cpp
     src/logger.cpp
+    src/publish_json.cpp
     src/storage.cpp)
 
 target_include_directories(tracker_core PUBLIC
@@ -47,11 +48,12 @@ if(WIN32)
         src/keyboard_hook_win.cpp
         src/focus_sampler_win.cpp
         src/lifecycle_win.cpp
+        src/publisher_win.cpp
         src/session_win.cpp
         src/tray_win.cpp
         src/util_win.cpp)
     target_include_directories(tracker_win PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
-    target_link_libraries(tracker_win PUBLIC tracker_core user32 shell32 advapi32)
+    target_link_libraries(tracker_win PUBLIC tracker_core nlohmann_json::nlohmann_json user32 shell32 advapi32 winhttp)
     target_compile_definitions(tracker_win PUBLIC
         UNICODE _UNICODE WIN32_LEAN_AND_MEAN NOMINMAX)
     tracker_configure_target(tracker_win)

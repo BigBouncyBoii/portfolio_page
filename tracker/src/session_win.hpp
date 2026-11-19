@@ -48,6 +48,7 @@ public:
     std::uint64_t last_hour(Counter counter);
     AppSeconds apps_today();
 
+    Storage& storage() { return storage_; }  // saved data only (call save() first)
     std::string state() { return sampler_.last_state(); }
     const std::string& error() const { return error_; }  // last start/save error
 

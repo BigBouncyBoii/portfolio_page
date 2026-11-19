@@ -8,7 +8,8 @@ ParseResult parse_args(const std::vector<std::string>& args) {
     Options opts;
     bool command_set = false;
 
-    for (const auto& arg : args) {
+    for (size_t i = 0; i < args.size(); ++i) {
+        const std::string& arg = args[i];
         std::optional<Command> command;
 
         if (arg == "--help" || arg == "-h") {
@@ -21,6 +22,10 @@ ParseResult parse_args(const std::vector<std::string>& args) {
             command = Command::Uninstall;
         } else if (arg == "--publish-now") {
             command = Command::PublishNow;
+        } else if (arg == "--set-token") {
+            if (i + 1 >= args.size()) return ParseResult{std::nullopt, "--set-token needs a value"};
+            command = Command::SetToken;
+            opts.token = args[++i];
         } else if (arg == "--console") {
             opts.console = true;
         } else {

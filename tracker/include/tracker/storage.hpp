@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <map>
 #include <string>
+#include <vector>
 
 struct sqlite3;
 
@@ -36,6 +37,15 @@ public:
 
     CountStats stats_since(Counter counter, std::int64_t minute_utc);
     AppSeconds app_seconds_since(std::int64_t minute_utc);
+
+    // Ranges are [from, to) in unix minutes.
+    struct InputRow {
+        std::int64_t minute_utc = 0;
+        std::uint64_t keys = 0;
+        std::uint64_t clicks = 0;
+    };
+    std::vector<InputRow> input_between(std::int64_t from, std::int64_t to);
+    AppSeconds app_seconds_between(std::int64_t from, std::int64_t to);
 
     const std::string& error() const { return error_; }
 

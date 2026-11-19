@@ -121,15 +121,41 @@ CountStats Storage::stats_since(Counter counter, std::int64_t minute_utc) {
 }
 
 AppSeconds Storage::app_seconds_since(std::int64_t minute_utc) {
-    AppSeconds out;
+    return app_seconds_between(minute_utc, INT64_MAX);
+}
+
+std::vector<Storage::InputRow> Storage::input_between(std::int64_t from, std::int64_t to) {
+    std::vector<InputRow> out;
     Stmt st;
     if (sqlite3_prepare_v2(db_,
-                           "SELECT app, SUM(seconds) FROM app_minute WHERE minute_utc >= ? GROUP BY app",
+                           "SELECT minute_utc, keys, clicks FROM input_minute "
+                           "WHERE minute_utc >= ? AND minute_utc < ? ORDER BY minute_utc",
                            -1, &st.s, nullptr) != SQLITE_OK) {
         fail("query");
         return out;
     }
-    sqlite3_bind_int64(st.s, 1, minute_utc);
+    sqlite3_bind_int64(st.s, 1, from);
+    sqlite3_bind_int64(st.s, 2, to);
+    while (sqlite3_step(st.s) == SQLITE_ROW) {
+        out.push_back({sqlite3_column_int64(st.s, 0),
+                       static_cast<std::uint64_t>(sqlite3_column_int64(st.s, 1)),
+                       static_cast<std::uint64_t>(sqlite3_column_int64(st.s, 2))});
+    }
+    return out;
+}
+
+AppSeconds Storage::app_seconds_between(std::int64_t from, std::int64_t to) {
+    AppSeconds out;
+    Stmt st;
+    if (sqlite3_prepare_v2(db_,
+                           "SELECT app, SUM(seconds) FROM app_minute "
+                           "WHERE minute_utc >= ? AND minute_utc < ? GROUP BY app",
+                           -1, &st.s, nullptr) != SQLITE_OK) {
+        fail("query");
+        return out;
+    }
+    sqlite3_bind_int64(st.s, 1, from);
+    sqlite3_bind_int64(st.s, 2, to);
     while (sqlite3_step(st.s) == SQLITE_ROW) {
         const auto* app = reinterpret_cast<const char*>(sqlite3_column_text(st.s, 0));
         out[app ? app : ""] = static_cast<std::uint64_t>(sqlite3_column_int64(st.s, 1));

@@ -9,7 +9,9 @@ namespace tracker {
 // restart the tracker to apply changes.
 struct Config {
     unsigned idle_threshold_s = 120;   // no input for this long = idle
-    unsigned publish_interval_min = 30;  // used by the publisher (Phase 5)
+    unsigned publish_interval_min = 30;  // how often stats are pushed to GitHub
+    std::string publish_repo = "BigBouncyBoii/portfolio_page";  // "owner/repo"; empty = local only
+    std::string publish_branch = "data";
     // exe name -> public label; anything not listed is published as "Other".
     std::map<std::string, std::string> app_allowlist;
 };

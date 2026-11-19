@@ -13,11 +13,13 @@ enum class Command {
     Install,     // --install: copy to %LOCALAPPDATA%, auto-start at login, launch
     Uninstall,   // --uninstall: stop, remove auto-start (data is kept)
     PublishNow,  // --publish-now: ask the running tracker to publish
+    SetToken,    // --set-token <token>: store the GitHub token ("" removes it)
 };
 
 struct Options {
     Command command = Command::Run;
     bool console = false;  // --console: show debug output in a terminal
+    std::string token;     // value of --set-token
 };
 
 struct ParseResult {
