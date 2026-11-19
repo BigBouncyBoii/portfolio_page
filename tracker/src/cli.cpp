@@ -58,6 +58,7 @@ std::string usage() {
            "      --install      Copy to %LOCALAPPDATA%\\PortfolioTracker, start at login, launch\n"
            "      --uninstall    Stop the tracker and remove auto-start (data is kept)\n"
            "      --publish-now  Ask the running tracker to publish stats now\n"
+           "      --set-token T  Save the GitHub token to Credential Manager (\"\" removes it)\n"
            "\n"
            "With no options, runs in the background with a tray icon.\n";
 }

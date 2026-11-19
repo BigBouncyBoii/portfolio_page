@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "lifecycle_win.hpp"
+#include "publisher_win.hpp"
 #include "session_win.hpp"
 #include "util_win.hpp"
 
@@ -26,6 +27,7 @@ enum : UINT { kCmdPause = 1, kCmdPublish, kCmdQuit };
 
 struct App {
     Session* session = nullptr;
+    Publisher* publisher = nullptr;
     Logger* log = nullptr;
     NOTIFYICONDATAW icon{};
     UINT taskbar_created = 0;  // broadcast when Explorer (re)starts
@@ -83,8 +85,7 @@ void update_tray(DWORD action) {
 }
 
 void publish_now() {
-    // The publisher arrives in Phase 5.
-    g_app->log->write("publish requested (publishing not implemented yet)");
+    g_app->publisher->publish_now(*g_app->session);
 }
 
 void on_command(HWND hwnd, UINT cmd) {
@@ -179,6 +180,7 @@ LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
             if (t.saved && !g_app->session->error().empty()) {
                 g_app->log->write(g_app->session->error());
             }
+            g_app->publisher->tick(*g_app->session);
             update_tray(NIM_MODIFY);
             return 0;
         }
@@ -219,8 +221,10 @@ int run_background(const Config& config, Logger& log) {
         return 1;
     }
 
+    Publisher publisher(config, log);
     App app;
     app.session = &session;
+    app.publisher = &publisher;
     app.log = &log;
     app.taskbar_created = RegisterWindowMessageW(L"TaskbarCreated");
     g_app = &app;

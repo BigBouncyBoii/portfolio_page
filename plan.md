@@ -118,7 +118,11 @@ Each phase ends with something working and demoable. Tick items off as you go.
 
 **Goal:** a simple, clean public page.
 
-- [ ] `site/index.html`: name, short bio, links (GitHub, LinkedIn, resume PDF), projects
+**Content source:** [`docs/portfolio_content.md`](docs/portfolio_content.md) holds everything extracted from the resume ([`james-loke-resume-2-11-26.pdf`](james-loke-resume-2-11-26.pdf)), [GitHub](https://github.com/BigBouncyBoii) and [LinkedIn](https://www.linkedin.com/in/james-loke-34a0612bb/). Build the page from it. Go back to the resume/GitHub/LinkedIn only for anything missing, and update that file first.
+
+- [x] Extract resume + GitHub content into `docs/portfolio_content.md` (LinkedIn blocks automated fetches; merge in a "Save to PDF" export later)
+- [ ] `site/index.html`: name, short bio, links (GitHub, LinkedIn, resume PDF), education, experience, featured projects, skills, awards/certificates (all from `docs/portfolio_content.md`)
+- [ ] Copy the resume PDF into `site/` so the page can link it; keep the phone number off the page
 - [ ] "Live stats" section fetching `summary.json` from `raw.githubusercontent.com`
 - [ ] Charts (Chart.js): keystrokes per hour today, top apps (bar), 30-day trend (line)
 - [ ] "Last updated X min ago" indicator; graceful fallback if fetch fails

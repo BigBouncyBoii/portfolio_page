@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "lifecycle_win.hpp"
+#include "publisher_win.hpp"
 #include "session_win.hpp"
 #include "tracker/cli.hpp"
 #include "tracker/config.hpp"
@@ -156,6 +157,7 @@ int run_console(const tracker::Config& config, tracker::Logger& log) {
         return 1;
     }
     log.write("running in console mode");
+    tracker::Publisher publisher(config, log);
 
     console.print(std::string(tracker::kName) + " " + tracker::kVersion +
                   ": counting keystrokes, clicks and foreground app time.\n"
@@ -174,6 +176,9 @@ int run_console(const tracker::Config& config, tracker::Logger& log) {
         }
         console.print(timestamp() + "  keys +" + std::to_string(t.keys) +
                       "  clicks +" + std::to_string(t.clicks) + "  now: " + session.state() + "  apps: " + format_apps(t.apps) + "\n");
+        publisher.tick(session);
+        const std::string status = publisher.take_status();
+        if (!status.empty()) console.print(timestamp() + "  [publish] " + status + "\n");
     }
 
     session.stop();
@@ -224,6 +229,11 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
             }
             show("tracker is not running in the background.\n", MB_ICONERROR);
             return 1;
+        case tracker::Command::SetToken: {
+            const bool ok = tracker::save_token(opts.token, message);
+            show(message, ok ? MB_ICONINFORMATION : MB_ICONERROR);
+            return ok ? 0 : 1;
+        }
         case tracker::Command::Run:
             break;
     }
