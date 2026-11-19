@@ -127,7 +127,7 @@ Each phase ends with something working and demoable. Tick items off as you go.
 - [x] Charts (Chart.js, `site/stats.js`): keystrokes per hour today, top apps (bar), 30-day trend (line)
 - [x] "Last updated X min ago" indicator; graceful fallback if fetch fails
 - [x] Short "How this works" blurb linking to the repo/architecture
-- [ ] Enable GitHub Pages from `main` → `/site`
+- [ ] Enable GitHub Pages (source: GitHub Actions; `.github/workflows/pages.yml` deploys `site/` on push to `main`, since Pages can only serve `/` or `/docs` from a branch)
 
 **Done when:** the public URL shows real data from today.
 
