@@ -67,6 +67,7 @@
 <li>Re-architected an AI research pipeline into an asynchronous multi-agent runtime using Pydantic AI, with durable execution, deterministic replay, fault recovery, parallel agent execution, planning, and browser/internal tool integration.</li>
 <li>Made a 100M-record data pipeline <strong>12&times; faster</strong> by pushing Pandas transformations down into SQL, streaming psycopg2 queries to disk, compressing with gzip across multiple processes, and using finer-grained threading.</li>
 <li>Built a scalable reconciliation pipeline for <strong>1B+ records/day</strong> across multiple regions, using multiprocessing and DuckDB to detect row-level data discrepancies.</li>
+<li>Added dynamic SQL query generation, server-side pagination and version-aware query optimisation to a latency-sensitive FastAPI endpoint, removing redundant sorting of immutable data.</li>
 </ul>
 
 <h3>HPC team member, CIUK Cluster Challenge, University College London</h3>
@@ -79,7 +80,7 @@
 <h3>Software Engineering Contractor, UCL IXN (IBM &times; Tech To The Rescue &times; Dignitas)</h3>
 <p><em>London &middot; 10/2025 &ndash; 03/2026</em></p>
 <ul>
-<li>Built a RAG-powered AI agent with LangGraph and LangChain, backed by Qdrant and Redis, plus an MCP server hosting WhatsApp, translation and SQL tools.</li>
+<li>Built a RAG-powered AI agent with LangGraph and LangChain (with recursive feedback loops), using Qdrant as the vector database and Redis for conversation history, plus an MCP server hosting WhatsApp, translation and SQL tools.</li>
 <li>Fine-tuned Meta NLLB with LoRA on a 200K-sample English&ndash;Swahili dataset, converted it to ONNX and applied INT8 quantisation with ONNX Runtime, cutting model-weight memory by about <strong>65%</strong> and making CPU inference possible.</li>
 <li>Designed and deployed a multi-service architecture with Docker on Azure Container Apps: 4 containers with CI/CD pipelines.</li>
 </ul>
@@ -92,8 +93,17 @@
 <li>Instrumented 3 core web services with Datadog RUM to monitor performance and crashes.</li>
 </ul>
 
+<h3>Winter Tech Fellowship, Palantir</h3>
+<p><em>London &middot; 12/2024 &ndash; 01/2025</em></p>
+<ul>
+<li>Project selected in the <strong>top 9 of 150+</strong> for a fast-track programme for penultimate and final-year students.</li>
+<li>Built a batch ETL pipeline that extracts, processes and merges mathematical PDFs from different sources into datasets with 20,000+ rows.</li>
+<li>Improved LLM performance with a RAG pipeline that generates maths questions and marks answers, plus a multimodal vision model for marking handwritten answers.</li>
+</ul>
+
 <h3>Programmes</h3>
 <p>Palantir Spring Week, Barclays Spring Week, Amazon Web Services Insight Day, YC Startup School (04/2025 &ndash; 08/2026)</p>
+<p>Learned about company culture, explored system design concepts and took part in in-house hackathons.</p>
 </section>
 
 <hr>
@@ -107,6 +117,20 @@
 <li>Designing an event-driven, asynchronous dual-stream VLA architecture for resource-constrained edge hardware, separating the vision-language perception backbone from the time-critical action head.</li>
 <li>Optimising GPU execution with CUDA Streams and TensorRT, using attention maps and pixel-level changes to decide when to re-run perception and avoid redundant inference.</li>
 <li>Building a C++ benchmarking framework comparing synchronous and asynchronous inference on end-to-end latency, control-frequency stability, GPU utilisation, energy use and task success.</li>
+</ul>
+
+<h3>Distributed Job Scheduler for AI Data Center Servers</h3>
+<ul>
+<li>Network-aware job scheduling system for an AI data center with a leaf-spine topology, modelling servers, switches and network links for realistic TCP/IP and latency-aware workloads.</li>
+<li>Dijkstra's algorithm for workload distribution, aiming for efficient GPU and memory utilisation across the network.</li>
+<li>P2P communication between nodes over async TCP/UDP messages, simulating resource gossiping, job forwarding and network-aware scheduling.</li>
+</ul>
+
+<h3>C++ Bioreactor Control System for a Tuberculosis Vaccine</h3>
+<p><em>UCL Engineering Challenges</em></p>
+<ul>
+<li>Arduino control system that keeps a tuberculosis vaccine solution at the optimal pH, temperature and stirring speed; the demonstration scored <strong>93%</strong>.</li>
+<li>PID and bang-bang control in C++ held pH within &plusmn;0.3, temperature within &plusmn;1&deg;C and stirring speed within 50 RPM of target. Linked the Arduino to an ESP32 and a web display over UART for real-time monitoring.</li>
 </ul>
 
 <h3><a href="https://github.com/BigBouncyBoii/portfolio_page">Portfolio activity tracker</a> (C++17, Win32, SQLite)</h3>
@@ -151,13 +175,15 @@
 <h2>Skills</h2>
 <dl>
 <dt><strong>Languages</strong></dt>
-<dd>C++, Python, Go, Java, SQL, JavaScript/TypeScript, Rust, C</dd>
+<dd>C++, Python, Go, Java, SQL, JavaScript/TypeScript, Rust, C, HTML/CSS</dd>
 <dt><strong>Systems &amp; performance</strong></dt>
 <dd>Concurrency, distributed systems, networking, Linux, performance optimisation, benchmarking, Slurm, HPC</dd>
 <dt><strong>ML &amp; inference</strong></dt>
 <dd>PyTorch, ONNX Runtime, model quantisation, CUDA, TensorRT, Pydantic AI, LangGraph, LangChain</dd>
 <dt><strong>Infrastructure &amp; backend</strong></dt>
-<dd>AWS, Azure, Docker, FastAPI, gRPC, CI/CD, Git, Terraform, Prometheus/Grafana, Redis</dd>
+<dd>AWS, Azure, Docker, FastAPI, gRPC, REST, Spring Boot, CI/CD, Git, Terraform, Prometheus/Grafana, Datadog, Redis, Pandas, DuckDB</dd>
+<dt><strong>Frontend</strong></dt>
+<dd>React, Tailwind CSS, Jest</dd>
 </dl>
 </section>
 
