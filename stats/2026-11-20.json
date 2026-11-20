@@ -1,10 +1,10 @@
 {
   "active_minutes": 200,
-  "app_seconds": 14213,
+  "app_seconds": 14333,
   "apps": [
     {
       "name": "Chrome",
-      "seconds": 6743
+      "seconds": 6863
     },
     {
       "name": "VS Code",
