@@ -1,10 +1,10 @@
 {
-  "active_minutes": 28,
-  "app_seconds": 1642,
+  "active_minutes": 29,
+  "app_seconds": 1667,
   "apps": [
     {
       "name": "Chrome",
-      "seconds": 875
+      "seconds": 893
     },
     {
       "name": "VS Code",
@@ -12,10 +12,14 @@
     },
     {
       "name": "File Explorer",
-      "seconds": 103
+      "seconds": 106
+    },
+    {
+      "name": "Other",
+      "seconds": 4
     }
   ],
-  "clicks": 355,
+  "clicks": 362,
   "date": "2026-11-20",
   "hours": [
     {
@@ -24,7 +28,7 @@
       "keys": 1059
     },
     {
-      "clicks": 143,
+      "clicks": 150,
       "hour": 1,
       "keys": 191
     },
