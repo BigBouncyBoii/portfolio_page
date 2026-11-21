@@ -1,7 +1,12 @@
 {
   "active_minutes": 0,
-  "app_seconds": 0,
-  "apps": [],
+  "app_seconds": 4,
+  "apps": [
+    {
+      "name": "File Explorer",
+      "seconds": 4
+    }
+  ],
   "clicks": 0,
   "date": "2026-11-21",
   "hours": [
