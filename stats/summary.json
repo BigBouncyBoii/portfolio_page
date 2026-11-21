@@ -1,11 +1,11 @@
 {
   "all_time": {
     "active_minutes": 971,
-    "app_seconds": 81766,
+    "app_seconds": 81877,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 48620
+        "seconds": 48731
       },
       {
         "name": "Chrome",
@@ -249,20 +249,20 @@
     },
     {
       "active_minutes": 410,
-      "app_seconds": 26982,
+      "app_seconds": 27093,
       "clicks": 2811,
       "date": "2026-11-21",
       "keys": 34354
     }
   ],
-  "generated_at": "2026-11-21T22:27:40Z",
+  "generated_at": "2026-11-21T22:57:42Z",
   "last_30_days": {
     "active_minutes": 971,
-    "app_seconds": 81766,
+    "app_seconds": 81877,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 48620
+        "seconds": 48731
       },
       {
         "name": "Chrome",
@@ -302,11 +302,11 @@
   },
   "last_7_days": {
     "active_minutes": 971,
-    "app_seconds": 81766,
+    "app_seconds": 81877,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 48620
+        "seconds": 48731
       },
       {
         "name": "Chrome",
@@ -346,11 +346,11 @@
   },
   "today": {
     "active_minutes": 410,
-    "app_seconds": 26982,
+    "app_seconds": 27093,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 21944
+        "seconds": 22055
       },
       {
         "name": "Chrome",
