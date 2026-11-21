@@ -44,13 +44,6 @@
       "active_minutes": 0,
       "app_seconds": 0,
       "clicks": 0,
-      "date": "2026-10-22",
-      "keys": 0
-    },
-    {
-      "active_minutes": 0,
-      "app_seconds": 0,
-      "clicks": 0,
       "date": "2026-10-23",
       "keys": 0
     },
@@ -249,9 +242,16 @@
       "clicks": 1533,
       "date": "2026-11-20",
       "keys": 8334
+    },
+    {
+      "active_minutes": 0,
+      "app_seconds": 0,
+      "clicks": 0,
+      "date": "2026-11-21",
+      "keys": 0
     }
   ],
-  "generated_at": "2026-11-20T22:45:53Z",
+  "generated_at": "2026-11-21T00:15:59Z",
   "last_30_days": {
     "active_minutes": 561,
     "app_seconds": 54784,
@@ -333,46 +333,21 @@
     "keys": 36100
   },
   "today": {
-    "active_minutes": 200,
-    "app_seconds": 14333,
-    "apps": [
-      {
-        "name": "Chrome",
-        "seconds": 6863
-      },
-      {
-        "name": "VS Code",
-        "seconds": 4739
-      },
-      {
-        "name": "Obsidian",
-        "seconds": 2140
-      },
-      {
-        "name": "Other",
-        "seconds": 380
-      },
-      {
-        "name": "File Explorer",
-        "seconds": 184
-      },
-      {
-        "name": "Snipping Tool",
-        "seconds": 27
-      }
-    ],
-    "clicks": 1533,
-    "date": "2026-11-20",
+    "active_minutes": 0,
+    "app_seconds": 0,
+    "apps": [],
+    "clicks": 0,
+    "date": "2026-11-21",
     "hours": [
       {
-        "clicks": 212,
+        "clicks": 0,
         "hour": 0,
-        "keys": 1059
+        "keys": 0
       },
       {
-        "clicks": 405,
+        "clicks": 0,
         "hour": 1,
-        "keys": 2159
+        "keys": 0
       },
       {
         "clicks": 0,
@@ -415,9 +390,9 @@
         "keys": 0
       },
       {
-        "clicks": 157,
+        "clicks": 0,
         "hour": 10,
-        "keys": 1324
+        "keys": 0
       },
       {
         "clicks": 0,
@@ -435,24 +410,24 @@
         "keys": 0
       },
       {
-        "clicks": 203,
+        "clicks": 0,
         "hour": 14,
-        "keys": 687
+        "keys": 0
       },
       {
-        "clicks": 291,
+        "clicks": 0,
         "hour": 15,
-        "keys": 1273
+        "keys": 0
       },
       {
-        "clicks": 188,
+        "clicks": 0,
         "hour": 16,
-        "keys": 1754
+        "keys": 0
       },
       {
-        "clicks": 10,
+        "clicks": 0,
         "hour": 17,
-        "keys": 78
+        "keys": 0
       },
       {
         "clicks": 0,
@@ -470,12 +445,12 @@
         "keys": 0
       },
       {
-        "clicks": 58,
+        "clicks": 0,
         "hour": 21,
         "keys": 0
       },
       {
-        "clicks": 9,
+        "clicks": 0,
         "hour": 22,
         "keys": 0
       },
@@ -485,6 +460,6 @@
         "keys": 0
       }
     ],
-    "keys": 8334
+    "keys": 0
   }
 }
