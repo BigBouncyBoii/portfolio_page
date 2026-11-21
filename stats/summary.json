@@ -1,11 +1,11 @@
 {
   "all_time": {
-    "active_minutes": 582,
-    "app_seconds": 56072,
+    "active_minutes": 585,
+    "app_seconds": 56077,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 26676
+        "seconds": 26681
       },
       {
         "name": "Chrome",
@@ -37,7 +37,7 @@
       }
     ],
     "clicks": 2288,
-    "keys": 39770
+    "keys": 39807
   },
   "daily": [
     {
@@ -244,21 +244,21 @@
       "keys": 8334
     },
     {
-      "active_minutes": 21,
-      "app_seconds": 1288,
+      "active_minutes": 24,
+      "app_seconds": 1293,
       "clicks": 172,
       "date": "2026-11-21",
-      "keys": 3670
+      "keys": 3707
     }
   ],
-  "generated_at": "2026-11-21T09:53:39Z",
+  "generated_at": "2026-11-21T13:15:32Z",
   "last_30_days": {
-    "active_minutes": 582,
-    "app_seconds": 56072,
+    "active_minutes": 585,
+    "app_seconds": 56077,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 26676
+        "seconds": 26681
       },
       {
         "name": "Chrome",
@@ -290,15 +290,15 @@
       }
     ],
     "clicks": 2288,
-    "keys": 39770
+    "keys": 39807
   },
   "last_7_days": {
-    "active_minutes": 582,
-    "app_seconds": 56072,
+    "active_minutes": 585,
+    "app_seconds": 56077,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 26676
+        "seconds": 26681
       },
       {
         "name": "Chrome",
@@ -330,11 +330,11 @@
       }
     ],
     "clicks": 2288,
-    "keys": 39770
+    "keys": 39807
   },
   "today": {
-    "active_minutes": 21,
-    "app_seconds": 1288,
+    "active_minutes": 24,
+    "app_seconds": 1293,
     "apps": [
       {
         "name": "Chrome",
@@ -343,6 +343,10 @@
       {
         "name": "File Explorer",
         "seconds": 8
+      },
+      {
+        "name": "VS Code",
+        "seconds": 5
       }
     ],
     "clicks": 172,
@@ -401,7 +405,7 @@
       {
         "clicks": 0,
         "hour": 10,
-        "keys": 0
+        "keys": 8
       },
       {
         "clicks": 0,
@@ -416,7 +420,7 @@
       {
         "clicks": 0,
         "hour": 13,
-        "keys": 0
+        "keys": 29
       },
       {
         "clicks": 0,
@@ -469,6 +473,6 @@
         "keys": 0
       }
     ],
-    "keys": 3670
+    "keys": 3707
   }
 }
