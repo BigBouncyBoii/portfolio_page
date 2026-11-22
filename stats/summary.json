@@ -1,7 +1,7 @@
 {
   "all_time": {
-    "active_minutes": 1390,
-    "app_seconds": 108439,
+    "active_minutes": 1391,
+    "app_seconds": 108578,
     "apps": [
       {
         "name": "VS Code",
@@ -21,7 +21,7 @@
       },
       {
         "name": "Other",
-        "seconds": 906
+        "seconds": 1045
       },
       {
         "name": "Snipping Tool",
@@ -41,7 +41,7 @@
       }
     ],
     "clicks": 8247,
-    "keys": 99193
+    "keys": 99196
   },
   "daily": [
     {
@@ -248,17 +248,17 @@
       "keys": 34464
     },
     {
-      "active_minutes": 403,
-      "app_seconds": 25384,
+      "active_minutes": 404,
+      "app_seconds": 25523,
       "clicks": 3224,
       "date": "2026-11-22",
-      "keys": 28629
+      "keys": 28632
     }
   ],
-  "generated_at": "2026-11-22T15:41:42Z",
+  "generated_at": "2026-11-22T16:11:43Z",
   "last_30_days": {
-    "active_minutes": 1390,
-    "app_seconds": 108439,
+    "active_minutes": 1391,
+    "app_seconds": 108578,
     "apps": [
       {
         "name": "VS Code",
@@ -278,7 +278,7 @@
       },
       {
         "name": "Other",
-        "seconds": 906
+        "seconds": 1045
       },
       {
         "name": "Snipping Tool",
@@ -298,11 +298,11 @@
       }
     ],
     "clicks": 8247,
-    "keys": 99193
+    "keys": 99196
   },
   "last_7_days": {
-    "active_minutes": 1390,
-    "app_seconds": 108439,
+    "active_minutes": 1391,
+    "app_seconds": 108578,
     "apps": [
       {
         "name": "VS Code",
@@ -322,7 +322,7 @@
       },
       {
         "name": "Other",
-        "seconds": 906
+        "seconds": 1045
       },
       {
         "name": "Snipping Tool",
@@ -342,11 +342,11 @@
       }
     ],
     "clicks": 8247,
-    "keys": 99193
+    "keys": 99196
   },
   "today": {
-    "active_minutes": 403,
-    "app_seconds": 25384,
+    "active_minutes": 404,
+    "app_seconds": 25523,
     "apps": [
       {
         "name": "VS Code",
@@ -362,7 +362,7 @@
       },
       {
         "name": "Other",
-        "seconds": 214
+        "seconds": 353
       },
       {
         "name": "Snipping Tool",
@@ -454,7 +454,7 @@
       {
         "clicks": 123,
         "hour": 15,
-        "keys": 1280
+        "keys": 1283
       },
       {
         "clicks": 0,
@@ -497,6 +497,6 @@
         "keys": 0
       }
     ],
-    "keys": 28629
+    "keys": 28632
   }
 }
