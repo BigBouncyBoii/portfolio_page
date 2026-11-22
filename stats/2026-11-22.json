@@ -1,13 +1,25 @@
 {
-  "active_minutes": 43,
-  "app_seconds": 2773,
+  "active_minutes": 73,
+  "app_seconds": 4518,
   "apps": [
     {
       "name": "Chrome",
-      "seconds": 2773
+      "seconds": 3827
+    },
+    {
+      "name": "VS Code",
+      "seconds": 514
+    },
+    {
+      "name": "File Explorer",
+      "seconds": 174
+    },
+    {
+      "name": "Other",
+      "seconds": 3
     }
   ],
-  "clicks": 337,
+  "clicks": 739,
   "date": "2026-11-22",
   "hours": [
     {
@@ -16,14 +28,14 @@
       "keys": 1138
     },
     {
-      "clicks": 0,
+      "clicks": 100,
       "hour": 1,
-      "keys": 0
+      "keys": 363
     },
     {
-      "clicks": 0,
+      "clicks": 302,
       "hour": 2,
-      "keys": 0
+      "keys": 2018
     },
     {
       "clicks": 0,
@@ -131,5 +143,5 @@
       "keys": 0
     }
   ],
-  "keys": 1138
+  "keys": 3519
 }
