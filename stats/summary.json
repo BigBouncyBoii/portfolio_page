@@ -1,11 +1,11 @@
 {
   "all_time": {
-    "active_minutes": 1137,
-    "app_seconds": 92400,
+    "active_minutes": 1140,
+    "app_seconds": 92453,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 51127
+        "seconds": 51180
       },
       {
         "name": "Chrome",
@@ -40,8 +40,8 @@
         "seconds": 16
       }
     ],
-    "clicks": 6341,
-    "keys": 82591
+    "clicks": 6343,
+    "keys": 82597
   },
   "daily": [
     {
@@ -248,21 +248,21 @@
       "keys": 34464
     },
     {
-      "active_minutes": 150,
-      "app_seconds": 9345,
-      "clicks": 1318,
+      "active_minutes": 153,
+      "app_seconds": 9398,
+      "clicks": 1320,
       "date": "2026-11-22",
-      "keys": 12027
+      "keys": 12033
     }
   ],
-  "generated_at": "2026-11-22T03:54:51Z",
+  "generated_at": "2026-11-22T09:45:47Z",
   "last_30_days": {
-    "active_minutes": 1137,
-    "app_seconds": 92400,
+    "active_minutes": 1140,
+    "app_seconds": 92453,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 51127
+        "seconds": 51180
       },
       {
         "name": "Chrome",
@@ -297,16 +297,16 @@
         "seconds": 16
       }
     ],
-    "clicks": 6341,
-    "keys": 82591
+    "clicks": 6343,
+    "keys": 82597
   },
   "last_7_days": {
-    "active_minutes": 1137,
-    "app_seconds": 92400,
+    "active_minutes": 1140,
+    "app_seconds": 92453,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 51127
+        "seconds": 51180
       },
       {
         "name": "Chrome",
@@ -341,12 +341,12 @@
         "seconds": 16
       }
     ],
-    "clicks": 6341,
-    "keys": 82591
+    "clicks": 6343,
+    "keys": 82597
   },
   "today": {
-    "active_minutes": 150,
-    "app_seconds": 9345,
+    "active_minutes": 153,
+    "app_seconds": 9398,
     "apps": [
       {
         "name": "Chrome",
@@ -354,7 +354,7 @@
       },
       {
         "name": "VS Code",
-        "seconds": 2212
+        "seconds": 2265
       },
       {
         "name": "File Explorer",
@@ -365,7 +365,7 @@
         "seconds": 43
       }
     ],
-    "clicks": 1318,
+    "clicks": 1320,
     "date": "2026-11-22",
     "hours": [
       {
@@ -414,9 +414,9 @@
         "keys": 0
       },
       {
-        "clicks": 0,
+        "clicks": 2,
         "hour": 9,
-        "keys": 0
+        "keys": 6
       },
       {
         "clicks": 0,
@@ -489,6 +489,6 @@
         "keys": 0
       }
     ],
-    "keys": 12027
+    "keys": 12033
   }
 }
