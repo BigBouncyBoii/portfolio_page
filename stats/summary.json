@@ -1,7 +1,7 @@
 {
   "all_time": {
-    "active_minutes": 1022,
-    "app_seconds": 85172,
+    "active_minutes": 1030,
+    "app_seconds": 85828,
     "apps": [
       {
         "name": "VS Code",
@@ -9,7 +9,7 @@
       },
       {
         "name": "Chrome",
-        "seconds": 31290
+        "seconds": 31946
       },
       {
         "name": "Obsidian",
@@ -40,8 +40,8 @@
         "seconds": 16
       }
     ],
-    "clicks": 5329,
-    "keys": 71412
+    "clicks": 5360,
+    "keys": 71702
   },
   "daily": [
     {
@@ -248,17 +248,17 @@
       "keys": 34464
     },
     {
-      "active_minutes": 35,
-      "app_seconds": 2117,
-      "clicks": 306,
+      "active_minutes": 43,
+      "app_seconds": 2773,
+      "clicks": 337,
       "date": "2026-11-22",
-      "keys": 848
+      "keys": 1138
     }
   ],
-  "generated_at": "2026-11-22T00:35:36Z",
+  "generated_at": "2026-11-22T01:05:37Z",
   "last_30_days": {
-    "active_minutes": 1022,
-    "app_seconds": 85172,
+    "active_minutes": 1030,
+    "app_seconds": 85828,
     "apps": [
       {
         "name": "VS Code",
@@ -266,7 +266,7 @@
       },
       {
         "name": "Chrome",
-        "seconds": 31290
+        "seconds": 31946
       },
       {
         "name": "Obsidian",
@@ -297,12 +297,12 @@
         "seconds": 16
       }
     ],
-    "clicks": 5329,
-    "keys": 71412
+    "clicks": 5360,
+    "keys": 71702
   },
   "last_7_days": {
-    "active_minutes": 1022,
-    "app_seconds": 85172,
+    "active_minutes": 1030,
+    "app_seconds": 85828,
     "apps": [
       {
         "name": "VS Code",
@@ -310,7 +310,7 @@
       },
       {
         "name": "Chrome",
-        "seconds": 31290
+        "seconds": 31946
       },
       {
         "name": "Obsidian",
@@ -341,25 +341,25 @@
         "seconds": 16
       }
     ],
-    "clicks": 5329,
-    "keys": 71412
+    "clicks": 5360,
+    "keys": 71702
   },
   "today": {
-    "active_minutes": 35,
-    "app_seconds": 2117,
+    "active_minutes": 43,
+    "app_seconds": 2773,
     "apps": [
       {
         "name": "Chrome",
-        "seconds": 2117
+        "seconds": 2773
       }
     ],
-    "clicks": 306,
+    "clicks": 337,
     "date": "2026-11-22",
     "hours": [
       {
-        "clicks": 306,
+        "clicks": 337,
         "hour": 0,
-        "keys": 848
+        "keys": 1138
       },
       {
         "clicks": 0,
@@ -477,6 +477,6 @@
         "keys": 0
       }
     ],
-    "keys": 848
+    "keys": 1138
   }
 }
