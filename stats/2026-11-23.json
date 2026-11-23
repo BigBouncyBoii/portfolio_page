@@ -1,10 +1,10 @@
 {
-  "active_minutes": 313,
-  "app_seconds": 20295,
+  "active_minutes": 314,
+  "app_seconds": 20343,
   "apps": [
     {
       "name": "VS Code",
-      "seconds": 10098
+      "seconds": 10142
     },
     {
       "name": "Chrome",
@@ -16,7 +16,7 @@
     },
     {
       "name": "Other",
-      "seconds": 216
+      "seconds": 220
     },
     {
       "name": "Obsidian",
@@ -27,7 +27,7 @@
       "seconds": 67
     }
   ],
-  "clicks": 2575,
+  "clicks": 2584,
   "date": "2026-11-23",
   "hours": [
     {
@@ -121,7 +121,7 @@
       "keys": 3871
     },
     {
-      "clicks": 197,
+      "clicks": 206,
       "hour": 18,
       "keys": 3293
     },
