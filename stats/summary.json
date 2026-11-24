@@ -1,23 +1,23 @@
 {
   "all_time": {
-    "active_minutes": 1856,
-    "app_seconds": 139619,
+    "active_minutes": 1887,
+    "app_seconds": 141398,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 76231
+        "seconds": 77591
       },
       {
         "name": "Chrome",
-        "seconds": 56115
+        "seconds": 56520
       },
       {
         "name": "Obsidian",
-        "seconds": 3243
+        "seconds": 3244
       },
       {
         "name": "File Explorer",
-        "seconds": 2290
+        "seconds": 2303
       },
       {
         "name": "Other",
@@ -40,8 +40,8 @@
         "seconds": 16
       }
     ],
-    "clicks": 12596,
-    "keys": 126492
+    "clicks": 12870,
+    "keys": 128829
   },
   "daily": [
     {
@@ -248,33 +248,33 @@
       "keys": 18494
     },
     {
-      "active_minutes": 128,
-      "app_seconds": 8141,
-      "clicks": 1710,
+      "active_minutes": 159,
+      "app_seconds": 9920,
+      "clicks": 1984,
       "date": "2026-11-24",
-      "keys": 8796
+      "keys": 11133
     }
   ],
-  "generated_at": "2026-11-24T14:13:17Z",
+  "generated_at": "2026-11-24T14:43:19Z",
   "last_30_days": {
-    "active_minutes": 1856,
-    "app_seconds": 139619,
+    "active_minutes": 1887,
+    "app_seconds": 141398,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 76231
+        "seconds": 77591
       },
       {
         "name": "Chrome",
-        "seconds": 56115
+        "seconds": 56520
       },
       {
         "name": "Obsidian",
-        "seconds": 3243
+        "seconds": 3244
       },
       {
         "name": "File Explorer",
-        "seconds": 2290
+        "seconds": 2303
       },
       {
         "name": "Other",
@@ -297,28 +297,28 @@
         "seconds": 16
       }
     ],
-    "clicks": 12596,
-    "keys": 126492
+    "clicks": 12870,
+    "keys": 128829
   },
   "last_7_days": {
-    "active_minutes": 1855,
-    "app_seconds": 139605,
+    "active_minutes": 1886,
+    "app_seconds": 141384,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 76231
+        "seconds": 77591
       },
       {
         "name": "Chrome",
-        "seconds": 56115
+        "seconds": 56520
       },
       {
         "name": "Obsidian",
-        "seconds": 3243
+        "seconds": 3244
       },
       {
         "name": "File Explorer",
-        "seconds": 2290
+        "seconds": 2303
       },
       {
         "name": "Other",
@@ -341,24 +341,24 @@
         "seconds": 16
       }
     ],
-    "clicks": 12596,
-    "keys": 126434
+    "clicks": 12870,
+    "keys": 128771
   },
   "today": {
-    "active_minutes": 128,
-    "app_seconds": 8141,
+    "active_minutes": 159,
+    "app_seconds": 9920,
     "apps": [
       {
         "name": "Chrome",
-        "seconds": 5813
+        "seconds": 6218
       },
       {
         "name": "VS Code",
-        "seconds": 1924
+        "seconds": 3284
       },
       {
         "name": "File Explorer",
-        "seconds": 220
+        "seconds": 233
       },
       {
         "name": "Other",
@@ -366,7 +366,7 @@
       },
       {
         "name": "Obsidian",
-        "seconds": 25
+        "seconds": 26
       },
       {
         "name": "Snipping Tool",
@@ -377,7 +377,7 @@
         "seconds": 1
       }
     ],
-    "clicks": 1710,
+    "clicks": 1984,
     "date": "2026-11-24",
     "hours": [
       {
@@ -451,9 +451,9 @@
         "keys": 909
       },
       {
-        "clicks": 172,
+        "clicks": 446,
         "hour": 14,
-        "keys": 824
+        "keys": 3161
       },
       {
         "clicks": 0,
@@ -501,6 +501,6 @@
         "keys": 0
       }
     ],
-    "keys": 8796
+    "keys": 11133
   }
 }
