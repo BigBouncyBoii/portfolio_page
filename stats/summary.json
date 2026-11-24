@@ -1,7 +1,7 @@
 {
   "all_time": {
-    "active_minutes": 1801,
-    "app_seconds": 136072,
+    "active_minutes": 1821,
+    "app_seconds": 137476,
     "apps": [
       {
         "name": "VS Code",
@@ -9,7 +9,7 @@
       },
       {
         "name": "Chrome",
-        "seconds": 54391
+        "seconds": 55795
       },
       {
         "name": "Obsidian",
@@ -40,8 +40,8 @@
         "seconds": 16
       }
     ],
-    "clicks": 11797,
-    "keys": 122084
+    "clicks": 12139,
+    "keys": 124759
   },
   "daily": [
     {
@@ -248,17 +248,17 @@
       "keys": 18494
     },
     {
-      "active_minutes": 73,
-      "app_seconds": 4594,
-      "clicks": 911,
+      "active_minutes": 93,
+      "app_seconds": 5998,
+      "clicks": 1253,
       "date": "2026-11-24",
-      "keys": 4388
+      "keys": 7063
     }
   ],
-  "generated_at": "2026-11-24T11:58:15Z",
+  "generated_at": "2026-11-24T12:28:17Z",
   "last_30_days": {
-    "active_minutes": 1801,
-    "app_seconds": 136072,
+    "active_minutes": 1821,
+    "app_seconds": 137476,
     "apps": [
       {
         "name": "VS Code",
@@ -266,7 +266,7 @@
       },
       {
         "name": "Chrome",
-        "seconds": 54391
+        "seconds": 55795
       },
       {
         "name": "Obsidian",
@@ -297,12 +297,12 @@
         "seconds": 16
       }
     ],
-    "clicks": 11797,
-    "keys": 122084
+    "clicks": 12139,
+    "keys": 124759
   },
   "last_7_days": {
-    "active_minutes": 1800,
-    "app_seconds": 136058,
+    "active_minutes": 1820,
+    "app_seconds": 137462,
     "apps": [
       {
         "name": "VS Code",
@@ -310,7 +310,7 @@
       },
       {
         "name": "Chrome",
-        "seconds": 54391
+        "seconds": 55795
       },
       {
         "name": "Obsidian",
@@ -341,16 +341,16 @@
         "seconds": 16
       }
     ],
-    "clicks": 11797,
-    "keys": 122026
+    "clicks": 12139,
+    "keys": 124701
   },
   "today": {
-    "active_minutes": 73,
-    "app_seconds": 4594,
+    "active_minutes": 93,
+    "app_seconds": 5998,
     "apps": [
       {
         "name": "Chrome",
-        "seconds": 4089
+        "seconds": 5493
       },
       {
         "name": "VS Code",
@@ -369,7 +369,7 @@
         "seconds": 9
       }
     ],
-    "clicks": 911,
+    "clicks": 1253,
     "date": "2026-11-24",
     "hours": [
       {
@@ -428,14 +428,14 @@
         "keys": 870
       },
       {
-        "clicks": 595,
+        "clicks": 599,
         "hour": 11,
-        "keys": 3518
+        "keys": 3879
       },
       {
-        "clicks": 0,
+        "clicks": 338,
         "hour": 12,
-        "keys": 0
+        "keys": 2314
       },
       {
         "clicks": 0,
@@ -493,6 +493,6 @@
         "keys": 0
       }
     ],
-    "keys": 4388
+    "keys": 7063
   }
 }
