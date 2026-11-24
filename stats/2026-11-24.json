@@ -1,8 +1,21 @@
 {
-  "active_minutes": 0,
-  "app_seconds": 0,
-  "apps": [],
-  "clicks": 0,
+  "active_minutes": 20,
+  "app_seconds": 1337,
+  "apps": [
+    {
+      "name": "Chrome",
+      "seconds": 1248
+    },
+    {
+      "name": "Other",
+      "seconds": 88
+    },
+    {
+      "name": "File Explorer",
+      "seconds": 1
+    }
+  ],
+  "clicks": 316,
   "date": "2026-11-24",
   "hours": [
     {
@@ -56,9 +69,9 @@
       "keys": 0
     },
     {
-      "clicks": 0,
+      "clicks": 316,
       "hour": 10,
-      "keys": 0
+      "keys": 870
     },
     {
       "clicks": 0,
@@ -126,5 +139,5 @@
       "keys": 0
     }
   ],
-  "keys": 0
+  "keys": 870
 }
