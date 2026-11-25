@@ -1,0 +1,130 @@
+{
+  "active_minutes": 0,
+  "app_seconds": 0,
+  "apps": [],
+  "clicks": 0,
+  "date": "2026-11-25",
+  "hours": [
+    {
+      "clicks": 0,
+      "hour": 0,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 1,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 2,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 3,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 4,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 5,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 6,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 7,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 8,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 9,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 10,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 11,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 12,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 13,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 14,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 15,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 16,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 17,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 18,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 19,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 20,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 21,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 22,
+      "keys": 0
+    },
+    {
+      "clicks": 0,
+      "hour": 23,
+      "keys": 0
+    }
+  ],
+  "keys": 0
+}
