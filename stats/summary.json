@@ -1,11 +1,11 @@
 {
   "all_time": {
-    "active_minutes": 2216,
-    "app_seconds": 162161,
+    "active_minutes": 2244,
+    "app_seconds": 163945,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 92974
+        "seconds": 94758
       },
       {
         "name": "Chrome",
@@ -40,8 +40,8 @@
         "seconds": 16
       }
     ],
-    "clicks": 14903,
-    "keys": 159313
+    "clicks": 15004,
+    "keys": 163371
   },
   "daily": [
     {
@@ -248,21 +248,21 @@
       "keys": 25588
     },
     {
-      "active_minutes": 173,
-      "app_seconds": 10639,
-      "clicks": 1202,
+      "active_minutes": 201,
+      "app_seconds": 12423,
+      "clicks": 1303,
       "date": "2026-11-25",
-      "keys": 16029
+      "keys": 20087
     }
   ],
-  "generated_at": "2026-11-25T14:28:28Z",
+  "generated_at": "2026-11-25T14:58:30Z",
   "last_30_days": {
-    "active_minutes": 2216,
-    "app_seconds": 162161,
+    "active_minutes": 2244,
+    "app_seconds": 163945,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 92974
+        "seconds": 94758
       },
       {
         "name": "Chrome",
@@ -297,16 +297,16 @@
         "seconds": 16
       }
     ],
-    "clicks": 14903,
-    "keys": 159313
+    "clicks": 15004,
+    "keys": 163371
   },
   "last_7_days": {
-    "active_minutes": 2079,
-    "app_seconds": 142844,
+    "active_minutes": 2107,
+    "app_seconds": 144628,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 80467
+        "seconds": 82251
       },
       {
         "name": "Chrome",
@@ -341,16 +341,16 @@
         "seconds": 16
       }
     ],
-    "clicks": 14903,
-    "keys": 147301
+    "clicks": 15004,
+    "keys": 151359
   },
   "today": {
-    "active_minutes": 173,
-    "app_seconds": 10639,
+    "active_minutes": 201,
+    "app_seconds": 12423,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 8541
+        "seconds": 10325
       },
       {
         "name": "Chrome",
@@ -373,7 +373,7 @@
         "seconds": 2
       }
     ],
-    "clicks": 1202,
+    "clicks": 1303,
     "date": "2026-11-25",
     "hours": [
       {
@@ -447,9 +447,9 @@
         "keys": 794
       },
       {
-        "clicks": 80,
+        "clicks": 181,
         "hour": 14,
-        "keys": 4261
+        "keys": 8319
       },
       {
         "clicks": 0,
@@ -497,6 +497,6 @@
         "keys": 0
       }
     ],
-    "keys": 16029
+    "keys": 20087
   }
 }
