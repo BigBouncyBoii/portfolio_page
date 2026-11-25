@@ -1,10 +1,10 @@
 {
-  "active_minutes": 173,
-  "app_seconds": 10639,
+  "active_minutes": 201,
+  "app_seconds": 12423,
   "apps": [
     {
       "name": "VS Code",
-      "seconds": 8541
+      "seconds": 10325
     },
     {
       "name": "Chrome",
@@ -27,7 +27,7 @@
       "seconds": 2
     }
   ],
-  "clicks": 1202,
+  "clicks": 1303,
   "date": "2026-11-25",
   "hours": [
     {
@@ -101,9 +101,9 @@
       "keys": 794
     },
     {
-      "clicks": 80,
+      "clicks": 181,
       "hour": 14,
-      "keys": 4261
+      "keys": 8319
     },
     {
       "clicks": 0,
@@ -151,5 +151,5 @@
       "keys": 0
     }
   ],
-  "keys": 16029
+  "keys": 20087
 }
