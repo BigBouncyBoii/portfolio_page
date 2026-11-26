@@ -1,7 +1,7 @@
 {
   "all_time": {
-    "active_minutes": 2727,
-    "app_seconds": 195326,
+    "active_minutes": 2737,
+    "app_seconds": 196624,
     "apps": [
       {
         "name": "VS Code",
@@ -9,7 +9,7 @@
       },
       {
         "name": "Chrome",
-        "seconds": 71503
+        "seconds": 72801
       },
       {
         "name": "Obsidian",
@@ -44,8 +44,8 @@
         "seconds": 23
       }
     ],
-    "clicks": 19006,
-    "keys": 199166
+    "clicks": 19037,
+    "keys": 199174
   },
   "daily": [
     {
@@ -252,17 +252,17 @@
       "keys": 32083
     },
     {
-      "active_minutes": 340,
-      "app_seconds": 22177,
-      "clicks": 3117,
+      "active_minutes": 350,
+      "app_seconds": 23475,
+      "clicks": 3148,
       "date": "2026-11-26",
-      "keys": 23799
+      "keys": 23807
     }
   ],
-  "generated_at": "2026-11-26T21:23:47Z",
+  "generated_at": "2026-11-26T21:53:49Z",
   "last_30_days": {
-    "active_minutes": 2727,
-    "app_seconds": 195326,
+    "active_minutes": 2737,
+    "app_seconds": 196624,
     "apps": [
       {
         "name": "VS Code",
@@ -270,7 +270,7 @@
       },
       {
         "name": "Chrome",
-        "seconds": 71503
+        "seconds": 72801
       },
       {
         "name": "Obsidian",
@@ -305,12 +305,12 @@
         "seconds": 23
       }
     ],
-    "clicks": 19006,
-    "keys": 199166
+    "clicks": 19037,
+    "keys": 199174
   },
   "last_7_days": {
-    "active_minutes": 2366,
-    "app_seconds": 154875,
+    "active_minutes": 2376,
+    "app_seconds": 156173,
     "apps": [
       {
         "name": "VS Code",
@@ -318,7 +318,7 @@
       },
       {
         "name": "Chrome",
-        "seconds": 55079
+        "seconds": 56377
       },
       {
         "name": "Obsidian",
@@ -353,16 +353,16 @@
         "seconds": 7
       }
     ],
-    "clicks": 18423,
-    "keys": 171400
+    "clicks": 18454,
+    "keys": 171408
   },
   "today": {
-    "active_minutes": 340,
-    "app_seconds": 22177,
+    "active_minutes": 350,
+    "app_seconds": 23475,
     "apps": [
       {
         "name": "Chrome",
-        "seconds": 8703
+        "seconds": 10001
       },
       {
         "name": "Obsidian",
@@ -393,7 +393,7 @@
         "seconds": 10
       }
     ],
-    "clicks": 3117,
+    "clicks": 3148,
     "date": "2026-11-26",
     "hours": [
       {
@@ -502,9 +502,9 @@
         "keys": 0
       },
       {
-        "clicks": 24,
+        "clicks": 55,
         "hour": 21,
-        "keys": 6
+        "keys": 14
       },
       {
         "clicks": 0,
@@ -517,6 +517,6 @@
         "keys": 0
       }
     ],
-    "keys": 23799
+    "keys": 23807
   }
 }
