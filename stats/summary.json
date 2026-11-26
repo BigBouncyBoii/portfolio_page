@@ -1,11 +1,11 @@
 {
   "all_time": {
-    "active_minutes": 2431,
-    "app_seconds": 176377,
+    "active_minutes": 2432,
+    "app_seconds": 176381,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 101288
+        "seconds": 101292
       },
       {
         "name": "Chrome",
@@ -40,7 +40,7 @@
         "seconds": 23
       }
     ],
-    "clicks": 16374,
+    "clicks": 16377,
     "keys": 177512
   },
   "daily": [
@@ -248,21 +248,21 @@
       "keys": 32083
     },
     {
-      "active_minutes": 44,
-      "app_seconds": 3228,
-      "clicks": 485,
+      "active_minutes": 45,
+      "app_seconds": 3232,
+      "clicks": 488,
       "date": "2026-11-26",
       "keys": 2145
     }
   ],
-  "generated_at": "2026-11-26T01:42:30Z",
+  "generated_at": "2026-11-26T10:13:16Z",
   "last_30_days": {
-    "active_minutes": 2431,
-    "app_seconds": 176377,
+    "active_minutes": 2432,
+    "app_seconds": 176381,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 101288
+        "seconds": 101292
       },
       {
         "name": "Chrome",
@@ -297,16 +297,16 @@
         "seconds": 23
       }
     ],
-    "clicks": 16374,
+    "clicks": 16377,
     "keys": 177512
   },
   "last_7_days": {
-    "active_minutes": 2070,
-    "app_seconds": 135926,
+    "active_minutes": 2071,
+    "app_seconds": 135930,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 79351
+        "seconds": 79355
       },
       {
         "name": "Chrome",
@@ -341,12 +341,12 @@
         "seconds": 7
       }
     ],
-    "clicks": 15791,
+    "clicks": 15794,
     "keys": 149746
   },
   "today": {
-    "active_minutes": 44,
-    "app_seconds": 3228,
+    "active_minutes": 45,
+    "app_seconds": 3232,
     "apps": [
       {
         "name": "Chrome",
@@ -365,11 +365,15 @@
         "seconds": 6
       },
       {
+        "name": "VS Code",
+        "seconds": 4
+      },
+      {
         "name": "Other",
         "seconds": 2
       }
     ],
-    "clicks": 485,
+    "clicks": 488,
     "date": "2026-11-26",
     "hours": [
       {
@@ -423,7 +427,7 @@
         "keys": 0
       },
       {
-        "clicks": 0,
+        "clicks": 3,
         "hour": 10,
         "keys": 0
       },
