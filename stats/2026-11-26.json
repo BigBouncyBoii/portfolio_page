@@ -1,10 +1,10 @@
 {
-  "active_minutes": 326,
-  "app_seconds": 21395,
+  "active_minutes": 340,
+  "app_seconds": 22177,
   "apps": [
     {
       "name": "Chrome",
-      "seconds": 8636
+      "seconds": 8703
     },
     {
       "name": "Obsidian",
@@ -12,19 +12,19 @@
     },
     {
       "name": "VS Code",
-      "seconds": 4550
+      "seconds": 4988
     },
     {
       "name": "Word",
-      "seconds": 2354
+      "seconds": 2625
     },
     {
       "name": "File Explorer",
-      "seconds": 505
+      "seconds": 509
     },
     {
       "name": "Other",
-      "seconds": 165
+      "seconds": 167
     },
     {
       "name": "Edge",
@@ -35,7 +35,7 @@
       "seconds": 10
     }
   ],
-  "clicks": 2961,
+  "clicks": 3117,
   "date": "2026-11-26",
   "hours": [
     {
@@ -129,9 +129,9 @@
       "keys": 4147
     },
     {
-      "clicks": 523,
+      "clicks": 655,
       "hour": 18,
-      "keys": 3329
+      "keys": 4373
     },
     {
       "clicks": 0,
@@ -144,9 +144,9 @@
       "keys": 0
     },
     {
-      "clicks": 0,
+      "clicks": 24,
       "hour": 21,
-      "keys": 0
+      "keys": 6
     },
     {
       "clicks": 0,
@@ -159,5 +159,5 @@
       "keys": 0
     }
   ],
-  "keys": 22749
+  "keys": 23799
 }
