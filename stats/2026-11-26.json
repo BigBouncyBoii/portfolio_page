@@ -1,10 +1,10 @@
 {
-  "active_minutes": 340,
-  "app_seconds": 22177,
+  "active_minutes": 350,
+  "app_seconds": 23475,
   "apps": [
     {
       "name": "Chrome",
-      "seconds": 8703
+      "seconds": 10001
     },
     {
       "name": "Obsidian",
@@ -35,7 +35,7 @@
       "seconds": 10
     }
   ],
-  "clicks": 3117,
+  "clicks": 3148,
   "date": "2026-11-26",
   "hours": [
     {
@@ -144,9 +144,9 @@
       "keys": 0
     },
     {
-      "clicks": 24,
+      "clicks": 55,
       "hour": 21,
-      "keys": 6
+      "keys": 14
     },
     {
       "clicks": 0,
@@ -159,5 +159,5 @@
       "keys": 0
     }
   ],
-  "keys": 23799
+  "keys": 23807
 }
