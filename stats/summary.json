@@ -1,7 +1,7 @@
 {
   "all_time": {
-    "active_minutes": 2737,
-    "app_seconds": 196624,
+    "active_minutes": 2745,
+    "app_seconds": 197101,
     "apps": [
       {
         "name": "VS Code",
@@ -9,7 +9,7 @@
       },
       {
         "name": "Chrome",
-        "seconds": 72801
+        "seconds": 73278
       },
       {
         "name": "Obsidian",
@@ -44,8 +44,8 @@
         "seconds": 23
       }
     ],
-    "clicks": 19037,
-    "keys": 199174
+    "clicks": 19115,
+    "keys": 199257
   },
   "daily": [
     {
@@ -252,17 +252,17 @@
       "keys": 23807
     },
     {
-      "active_minutes": 0,
-      "app_seconds": 0,
-      "clicks": 0,
+      "active_minutes": 8,
+      "app_seconds": 477,
+      "clicks": 78,
       "date": "2026-11-27",
-      "keys": 0
+      "keys": 83
     }
   ],
-  "generated_at": "2026-11-27T00:23:59Z",
+  "generated_at": "2026-11-27T00:54:01Z",
   "last_30_days": {
-    "active_minutes": 2737,
-    "app_seconds": 196624,
+    "active_minutes": 2745,
+    "app_seconds": 197101,
     "apps": [
       {
         "name": "VS Code",
@@ -270,7 +270,7 @@
       },
       {
         "name": "Chrome",
-        "seconds": 72801
+        "seconds": 73278
       },
       {
         "name": "Obsidian",
@@ -305,12 +305,12 @@
         "seconds": 23
       }
     ],
-    "clicks": 19037,
-    "keys": 199174
+    "clicks": 19115,
+    "keys": 199257
   },
   "last_7_days": {
-    "active_minutes": 2176,
-    "app_seconds": 141840,
+    "active_minutes": 2184,
+    "app_seconds": 142317,
     "apps": [
       {
         "name": "VS Code",
@@ -318,7 +318,7 @@
       },
       {
         "name": "Chrome",
-        "seconds": 49514
+        "seconds": 49991
       },
       {
         "name": "Obsidian",
@@ -353,20 +353,25 @@
         "seconds": 7
       }
     ],
-    "clicks": 16921,
-    "keys": 163074
+    "clicks": 16999,
+    "keys": 163157
   },
   "today": {
-    "active_minutes": 0,
-    "app_seconds": 0,
-    "apps": [],
-    "clicks": 0,
+    "active_minutes": 8,
+    "app_seconds": 477,
+    "apps": [
+      {
+        "name": "Chrome",
+        "seconds": 477
+      }
+    ],
+    "clicks": 78,
     "date": "2026-11-27",
     "hours": [
       {
-        "clicks": 0,
+        "clicks": 78,
         "hour": 0,
-        "keys": 0
+        "keys": 83
       },
       {
         "clicks": 0,
@@ -484,6 +489,6 @@
         "keys": 0
       }
     ],
-    "keys": 0
+    "keys": 83
   }
 }
