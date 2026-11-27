@@ -1,14 +1,19 @@
 {
-  "active_minutes": 0,
-  "app_seconds": 0,
-  "apps": [],
-  "clicks": 0,
+  "active_minutes": 8,
+  "app_seconds": 477,
+  "apps": [
+    {
+      "name": "Chrome",
+      "seconds": 477
+    }
+  ],
+  "clicks": 78,
   "date": "2026-11-27",
   "hours": [
     {
-      "clicks": 0,
+      "clicks": 78,
       "hour": 0,
-      "keys": 0
+      "keys": 83
     },
     {
       "clicks": 0,
@@ -126,5 +131,5 @@
       "keys": 0
     }
   ],
-  "keys": 0
+  "keys": 83
 }
