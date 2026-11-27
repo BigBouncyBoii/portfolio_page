@@ -1,23 +1,23 @@
 {
   "all_time": {
-    "active_minutes": 2952,
-    "app_seconds": 210136,
+    "active_minutes": 2982,
+    "app_seconds": 211923,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 106724
+        "seconds": 106796
       },
       {
         "name": "Chrome",
-        "seconds": 79726
+        "seconds": 80011
       },
       {
         "name": "Obsidian",
-        "seconds": 15121
+        "seconds": 16483
       },
       {
         "name": "File Explorer",
-        "seconds": 3486
+        "seconds": 3529
       },
       {
         "name": "Word",
@@ -29,7 +29,7 @@
       },
       {
         "name": "Snipping Tool",
-        "seconds": 248
+        "seconds": 273
       },
       {
         "name": "Edge",
@@ -44,8 +44,8 @@
         "seconds": 40
       }
     ],
-    "clicks": 21604,
-    "keys": 210213
+    "clicks": 21931,
+    "keys": 212067
   },
   "daily": [
     {
@@ -252,33 +252,33 @@
       "keys": 23807
     },
     {
-      "active_minutes": 215,
-      "app_seconds": 13512,
-      "clicks": 2567,
+      "active_minutes": 245,
+      "app_seconds": 15299,
+      "clicks": 2894,
       "date": "2026-11-27",
-      "keys": 11039
+      "keys": 12893
     }
   ],
-  "generated_at": "2026-11-27T13:24:53Z",
+  "generated_at": "2026-11-27T13:54:54Z",
   "last_30_days": {
-    "active_minutes": 2952,
-    "app_seconds": 210136,
+    "active_minutes": 2982,
+    "app_seconds": 211923,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 106724
+        "seconds": 106796
       },
       {
         "name": "Chrome",
-        "seconds": 79726
+        "seconds": 80011
       },
       {
         "name": "Obsidian",
-        "seconds": 15121
+        "seconds": 16483
       },
       {
         "name": "File Explorer",
-        "seconds": 3486
+        "seconds": 3529
       },
       {
         "name": "Word",
@@ -290,7 +290,7 @@
       },
       {
         "name": "Snipping Tool",
-        "seconds": 248
+        "seconds": 273
       },
       {
         "name": "Edge",
@@ -305,28 +305,28 @@
         "seconds": 40
       }
     ],
-    "clicks": 21604,
-    "keys": 210213
+    "clicks": 21931,
+    "keys": 212067
   },
   "last_7_days": {
-    "active_minutes": 2391,
-    "app_seconds": 155352,
+    "active_minutes": 2421,
+    "app_seconds": 157139,
     "apps": [
       {
         "name": "VS Code",
-        "seconds": 80048
+        "seconds": 80120
       },
       {
         "name": "Chrome",
-        "seconds": 56439
+        "seconds": 56724
       },
       {
         "name": "Obsidian",
-        "seconds": 11978
+        "seconds": 13340
       },
       {
         "name": "File Explorer",
-        "seconds": 2642
+        "seconds": 2685
       },
       {
         "name": "Word",
@@ -342,7 +342,7 @@
       },
       {
         "name": "Snipping Tool",
-        "seconds": 112
+        "seconds": 137
       },
       {
         "name": "Terminal",
@@ -353,32 +353,32 @@
         "seconds": 24
       }
     ],
-    "clicks": 19488,
-    "keys": 174113
+    "clicks": 19815,
+    "keys": 175967
   },
   "today": {
-    "active_minutes": 215,
-    "app_seconds": 13512,
+    "active_minutes": 245,
+    "app_seconds": 15299,
     "apps": [
       {
-        "name": "Chrome",
-        "seconds": 6925
+        "name": "Obsidian",
+        "seconds": 7353
       },
       {
-        "name": "Obsidian",
-        "seconds": 5991
+        "name": "Chrome",
+        "seconds": 7210
       },
       {
         "name": "VS Code",
-        "seconds": 448
+        "seconds": 520
       },
       {
         "name": "Snipping Tool",
-        "seconds": 60
+        "seconds": 85
       },
       {
         "name": "File Explorer",
-        "seconds": 34
+        "seconds": 77
       },
       {
         "name": "Other",
@@ -401,7 +401,7 @@
         "seconds": 1
       }
     ],
-    "clicks": 2567,
+    "clicks": 2894,
     "date": "2026-11-27",
     "hours": [
       {
@@ -470,9 +470,9 @@
         "keys": 1671
       },
       {
-        "clicks": 291,
+        "clicks": 618,
         "hour": 13,
-        "keys": 677
+        "keys": 2531
       },
       {
         "clicks": 0,
@@ -525,6 +525,6 @@
         "keys": 0
       }
     ],
-    "keys": 11039
+    "keys": 12893
   }
 }
