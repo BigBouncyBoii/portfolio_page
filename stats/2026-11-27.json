@@ -1,10 +1,10 @@
 {
-  "active_minutes": 245,
-  "app_seconds": 15299,
+  "active_minutes": 248,
+  "app_seconds": 15442,
   "apps": [
     {
       "name": "Obsidian",
-      "seconds": 7353
+      "seconds": 7451
     },
     {
       "name": "Chrome",
@@ -20,11 +20,11 @@
     },
     {
       "name": "File Explorer",
-      "seconds": 77
+      "seconds": 78
     },
     {
       "name": "Other",
-      "seconds": 21
+      "seconds": 65
     },
     {
       "name": "Notepad",
@@ -43,7 +43,7 @@
       "seconds": 1
     }
   ],
-  "clicks": 2894,
+  "clicks": 2918,
   "date": "2026-11-27",
   "hours": [
     {
@@ -112,14 +112,14 @@
       "keys": 1671
     },
     {
-      "clicks": 618,
+      "clicks": 626,
       "hour": 13,
-      "keys": 2531
+      "keys": 2534
     },
     {
-      "clicks": 0,
+      "clicks": 16,
       "hour": 14,
-      "keys": 0
+      "keys": 11
     },
     {
       "clicks": 0,
@@ -167,5 +167,5 @@
       "keys": 0
     }
   ],
-  "keys": 12893
+  "keys": 12907
 }
